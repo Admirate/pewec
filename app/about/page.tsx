@@ -8,10 +8,6 @@ const mulish = Mulish({
   weight: ["400", "600", "700"],
 });
 
-const lora = Lora({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
 
 export default function AboutPage() {
   return (
@@ -40,7 +36,6 @@ export default function AboutPage() {
       </section>
 
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 space-y-16">
-        {/* WHO WE ARE */}
         <h2
           className={`${mulish.className} text-[#c44944] text-3xl md:text-3xl lg:text-5xl font-bold mb-4`}
         >

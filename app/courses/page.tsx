@@ -14,24 +14,20 @@ const poppins = Poppins({
 export default function CoursesPage() {
   return (
     <div className="w-full bg-neutral-100">
-      {/* ================= HERO ================= */}
+      {/* Hero */}
       <section className="relative w-full h-90  md:h-screen overflow-hidden">
-        {/* IMAGE */}
         <img
           src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/6.png"
           alt="courses"
           className="w-full h-full object-cover"
         />
 
-        {/* DARK OVERLAY */}
         <div className="absolute inset-0 bg-black/40" />
 
-        {/* NAVBAR OVER IMAGE */}
         <div className="absolute top-0 left-0 w-full z-50">
           <Navbar />
         </div>
 
-        {/* TEXT LEFT BOTTOM */}
         <div className="absolute bottom-4 md:bottom-24 left-6 md:left-20 lg:left-40">
           <h1
             className={`${mulish.className} text-white mt-8 text-3xl md:text-6xl font-semibold`}
