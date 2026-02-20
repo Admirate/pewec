@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Mulish } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { SheetTitle } from "@/components/ui/sheet";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -81,6 +82,7 @@ export default function Navbar() {
             </SheetTrigger>
 
             <SheetContent side="right" className="w-72 bg-white p-6">
+              <SheetTitle className="sr-only">Menu</SheetTitle>
               {/* LOGO */}
               <div className="mb-10">
                 <Image

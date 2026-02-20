@@ -1,3 +1,3 @@
-export default function CourseEnquiries() {
-  return <div>Admin Course Enquiries</div>;
+export default function ContactEnquiries() {
+  return <div>Admin Contact Enquiries</div>;
 }
