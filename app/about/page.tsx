@@ -1,6 +1,6 @@
 "use client";
 
-import { Mulish, Lora } from "next/font/google";
+import { Mulish } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
@@ -10,7 +10,6 @@ const mulish = Mulish({
   weight: ["400", "600", "700"],
 });
 
-
 export default function AboutPage() {
   return (
     <div className="w-full bg-[#f3f3f3]">
@@ -18,7 +17,7 @@ export default function AboutPage() {
         initial={{ scale: 1.1, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
-        className="relative w-full h-auto lg:h-[1200px] overflow-hidden"
+        className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-screen overflow-hidden"
       >
         {/* Image */}
         <img
@@ -39,18 +38,17 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 80 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="absolute lg:bottom-32 bottom-12 left-6 md:left-16 lg:left-48"
+          className="absolute bottom-6 sm:bottom-10 md:bottom-16 lg:bottom-24 xl:bottom-32 left-4 sm:left-6 md:left-12 lg:left-24 xl:left-48"
         >
           <h1
-            className={`${mulish.className} text-white text-3xl md:text-5xl font-semibold`}
+            className={`${mulish.className} text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold`}
           >
             About Us
           </h1>
         </motion.div>
       </motion.section>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-16 space-y-20">
-       
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12 md:py-16 space-y-12 sm:space-y-16 md:space-y-20">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -58,13 +56,13 @@ export default function AboutPage() {
           viewport={{ once: true }}
         >
           <h2
-            className={`${mulish.className} text-[#c44944] text-3xl lg:text-5xl font-bold mb-6`}
+            className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6`}
           >
             Who We Are
           </h2>
 
           <p
-            className={`${mulish.className} text-gray-700 text-[20px] md:text-xl lg:text-3xl leading-relaxed`}
+            className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
           >
             Princess Esin Women's Educational Centre works under the Nazima
             Hyderabad Women's Association Trust. The Trust was established in
@@ -74,11 +72,10 @@ export default function AboutPage() {
             deserves the chance to learn, grow, and build a better life.
           </p>
 
-          <div className="w-full border-b-4 border-[#7EACB5] mt-8"></div>
+          <div className="w-full border-b-4 border-[#7EACB5] mt-6 sm:mt-8"></div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-16">
-         
+        <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16">
           <motion.div
             initial={{ opacity: 0, x: -120 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -86,13 +83,13 @@ export default function AboutPage() {
             viewport={{ once: true }}
           >
             <h3
-              className={`${mulish.className} text-[#c44944] text-3xl lg:text-5xl font-semibold mb-4`}
+              className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold mb-3 sm:mb-4`}
             >
               Management
             </h3>
 
             <p
-              className={`${mulish.className} text-gray-700 text-[20px] md:text-xl lg:text-3xl leading-relaxed`}
+              className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
             >
               The centre is guided by experienced members who believe in
               education as support from across all walks of life. The management
@@ -108,13 +105,13 @@ export default function AboutPage() {
             viewport={{ once: true }}
           >
             <h3
-              className={`${mulish.className} text-[#c44944] text-3xl lg:text-5xl font-semibold mb-4`}
+              className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold mb-3 sm:mb-4`}
             >
               Faculty
             </h3>
 
             <p
-              className={`${mulish.className} text-gray-700 text-[20px] md:text-xl lg:text-3xl leading-relaxed`}
+              className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
             >
               Our teachers and instructors are trained, patient and supportive.
               They focus on clear teaching and practical learning so students
@@ -123,8 +120,7 @@ export default function AboutPage() {
           </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-         
+        <div className="grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -120 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -135,11 +131,10 @@ export default function AboutPage() {
             <img
               src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/5.png"
               alt="students"
-              className="w-full h-72 object-cover rounded-xl"
+              className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover rounded-xl"
             />
           </motion.div>
 
-       
           <motion.div
             initial={{ opacity: 0, x: 120 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -147,20 +142,20 @@ export default function AboutPage() {
             viewport={{ once: true }}
           >
             <h3
-              className={`${mulish.className} text-[#c44944] text-3xl lg:text-5xl font-semibold mb-4`}
+              className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold mb-3 sm:mb-4`}
             >
               Infrastructure
             </h3>
 
             <p
-              className={`${mulish.className} text-gray-700 text-[20px] md:text-xl lg:text-3xl mb-4`}
+              className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-3 sm:mb-4`}
             >
               The campus offers a calm and safe place to learn. Facilities
               include:
             </p>
 
             <ul
-              className={`${mulish.className} text-gray-700 text-[20px] md:text-xl lg:text-3xl space-y-2`}
+              className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl space-y-1.5 sm:space-y-2`}
             >
               <li>• Spacious classrooms</li>
               <li>• Practical training rooms</li>

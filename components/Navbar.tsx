@@ -35,7 +35,7 @@ export default function Navbar() {
 
   return (
     <header className="w-full relative top-0 left-0 z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 py-4">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4">
         {/* LOGO */}
         <Link href="/">
           <Image
@@ -43,20 +43,20 @@ export default function Navbar() {
             alt="logo"
             width={140}
             height={80}
-            className="w-20 md:w-28 lg:w-36 h-auto object-contain"
+            className="w-16 sm:w-20 md:w-24 lg:w-32 xl:w-36 h-auto object-contain"
             priority
           />
         </Link>
 
-        {/*Desktop Nav*/}
-        <nav className="hidden lg:flex bg-[#c44944] text-white rounded-full px-10 lg:px-16 py-6 items-center gap-8 lg:gap-12 shadow-md">
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex bg-[#c44944] text-white rounded-full px-6 xl:px-10 py-4 xl:py-5 items-center gap-4 xl:gap-8 shadow-md">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
                 mulish.className,
-                "relative text-[28px] leading-[100%] font-semibold text-white group",
+                "relative text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-[100%] font-semibold text-white group whitespace-nowrap",
               )}
             >
               {item.name}
@@ -64,7 +64,7 @@ export default function Navbar() {
               {/* smooth sliding underline */}
               <span
                 className={cn(
-                  "absolute left-0 -bottom-2 h-0.5 bg-white transition-all duration-300 ease-in-out",
+                  "absolute left-0 -bottom-1.5 h-0.5 bg-white transition-all duration-300 ease-in-out",
                   isActive(item.href) ? "w-full" : "w-0 group-hover:w-full",
                 )}
               />
@@ -76,26 +76,26 @@ export default function Navbar() {
         <div className="lg:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-8 w-8 text-black" />
+              <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-12 sm:w-12">
+                <Menu className="h-6 w-6 sm:h-8 sm:w-8 text-black" />
               </Button>
             </SheetTrigger>
 
-            <SheetContent side="right" className="w-72 bg-white p-6">
+            <SheetContent side="right" className="w-64 sm:w-72 bg-white p-4 sm:p-6">
               <SheetTitle className="sr-only">Menu</SheetTitle>
               {/* LOGO */}
-              <div className="mb-10">
+              <div className="mb-8 sm:mb-10">
                 <Image
                   src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/logo/peweclogo.png"
                   alt="logo"
                   width={120}
                   height={60}
-                  className="w-28 h-auto"
+                  className="w-20 sm:w-28 h-auto"
                 />
               </div>
 
               {/* MOBILE LINKS */}
-              <nav className="flex flex-col gap-6">
+              <nav className="flex flex-col gap-4 sm:gap-6">
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
@@ -103,7 +103,7 @@ export default function Navbar() {
                     onClick={() => setOpen(false)}
                     className={cn(
                       mulish.className,
-                      "text-lg font-semibold transition",
+                      "text-base sm:text-lg font-semibold transition",
                       isActive(item.href)
                         ? "text-[#c44944]"
                         : "text-gray-700 hover:text-[#c44944]",

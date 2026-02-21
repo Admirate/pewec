@@ -21,45 +21,39 @@ export default function CourseEnquiryForm() {
     message: "",
   });
 
-  // handle input
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // validation
- const validate = () => {
-   if (!form.name || !form.email || !form.phone || !form.course) {
-     setError("Please fill all required fields");
-     return false;
-   }
+  const validate = () => {
+    if (!form.name || !form.email || !form.phone || !form.course) {
+      setError("Please fill all required fields");
+      return false;
+    }
 
-   // email validation
-   const emailRegex = /^\S+@\S+\.\S+$/;
-   if (!emailRegex.test(form.email)) {
-     setError("Enter valid email");
-     return false;
-   }
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(form.email)) {
+      setError("Enter valid email");
+      return false;
+    }
 
-   // name validation 
-   const nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
-   if (!nameRegex.test(form.name.trim())) {
-     setError("Name should contain only alphabets and single spaces");
-     return false;
-   }
+    const nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+    if (!nameRegex.test(form.name.trim())) {
+      setError("Name should contain only alphabets and single spaces");
+      return false;
+    }
 
-   // phone validation 
-   const phoneRegex = /^[0-9]{10}$/;
-   if (!phoneRegex.test(form.phone)) {
-     setError("Phone number must be exactly 10 digits");
-     return false;
-   }
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(form.phone)) {
+      setError("Phone number must be exactly 10 digits");
+      return false;
+    }
 
-   return true;
- };
+    return true;
+  };
 
-  // submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -88,7 +82,7 @@ export default function CourseEnquiryForm() {
         course: "",
         message: "",
       });
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Try again.");
     } finally {
       setLoading(false);
@@ -96,26 +90,28 @@ export default function CourseEnquiryForm() {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-3xl shadow-lg">
+    <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
       <h2
-        className={`${mulish.className} text-2xl md:text-4xl font-semibold mb-6 text-[#c44944]`}
+        className={`${mulish.className} text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 sm:mb-6 text-[#c44944]`}
       >
         Course Enquiry Form
       </h2>
 
       {/* SUCCESS */}
       {success && (
-        <div className="bg-green-100 text-green-700 p-3 rounded mb-4">
+        <div className="bg-green-100 text-green-700 p-2 sm:p-3 rounded mb-3 sm:mb-4 text-sm sm:text-base">
           {success}
         </div>
       )}
 
       {/* ERROR */}
       {error && (
-        <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>
+        <div className="bg-red-100 text-red-700 p-2 sm:p-3 rounded mb-3 sm:mb-4 text-sm sm:text-base">
+          {error}
+        </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
         {/* NAME */}
         <input
           name="name"
@@ -124,13 +120,11 @@ export default function CourseEnquiryForm() {
           value={form.name}
           onChange={(e) => {
             let value = e.target.value;
-
             value = value.replace(/[^a-zA-Z\s]/g, "");
             value = value.replace(/\s{2,}/g, " ");
-
             setForm({ ...form, name: value });
           }}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-3"
+          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg"
         />
 
         {/* EMAIL */}
@@ -140,7 +134,7 @@ export default function CourseEnquiryForm() {
           placeholder="Email *"
           value={form.email}
           onChange={handleChange}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-3"
+          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg"
         />
 
         {/* PHONE */}
@@ -150,12 +144,11 @@ export default function CourseEnquiryForm() {
           placeholder="Phone *"
           value={form.phone}
           onChange={(e) => {
-            // only numbers allow
             const value = e.target.value.replace(/\D/g, "");
             setForm({ ...form, phone: value });
           }}
           maxLength={10}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-3"
+          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg"
         />
 
         {/* COURSE */}
@@ -164,7 +157,7 @@ export default function CourseEnquiryForm() {
           placeholder="Course Name *"
           value={form.course}
           onChange={handleChange}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-3"
+          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg"
         />
 
         {/* MESSAGE */}
@@ -173,8 +166,8 @@ export default function CourseEnquiryForm() {
           placeholder="Message (optional)"
           value={form.message}
           onChange={handleChange}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-3 resize-none"
-          rows={4}
+          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 resize-none text-sm sm:text-base md:text-lg"
+          rows={3}
         />
 
         {/* BUTTON */}
@@ -182,11 +175,11 @@ export default function CourseEnquiryForm() {
           type="submit"
           disabled={loading}
           className={`${mulish.className}
-          bg-[#006457] hover:bg-[#05443c]
-          text-white font-semibold
-          px-10 py-4 rounded-full
-          text-lg md:text-xl
-          transition w-full md:w-fit`}
+            bg-[#006457] hover:bg-[#05443c]
+            text-white font-semibold
+            px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-4 rounded-full
+            text-sm sm:text-base md:text-lg lg:text-xl
+            transition w-full md:w-fit`}
         >
           {loading ? "Submitting..." : "Submit Enquiry"}
         </button>
