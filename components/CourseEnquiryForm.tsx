@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mulish } from "next/font/google";
+import { LONG_TERM_COURSES, SHORT_TERM_COURSES } from "@/lib/constants";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -17,18 +18,25 @@ export default function CourseEnquiryForm() {
     name: "",
     email: "",
     phone: "",
-    course: "",
+    course_type: "" as "long_term" | "short_term" | "",
+    course_name: "",
     message: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    
+    if (name === "course_type") {
+      setForm({ ...form, course_type: value as "long_term" | "short_term" | "", course_name: "" });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const validate = () => {
-    if (!form.name || !form.email || !form.phone || !form.course) {
+    if (!form.name || !form.email || !form.phone || !form.course_type || !form.course_name) {
       setError("Please fill all required fields");
       return false;
     }
@@ -74,12 +82,13 @@ export default function CourseEnquiryForm() {
 
       if (!res.ok) throw new Error("Failed");
 
-      setSuccess("Enquiry submitted successfully!");
+      setSuccess("Enquiry submitted successfully! We will contact you soon.");
       setForm({
         name: "",
         email: "",
         phone: "",
-        course: "",
+        course_type: "",
+        course_name: "",
         message: "",
       });
     } catch {
@@ -88,6 +97,12 @@ export default function CourseEnquiryForm() {
       setLoading(false);
     }
   };
+
+  const availableCourses = form.course_type === "long_term" 
+    ? LONG_TERM_COURSES 
+    : form.course_type === "short_term" 
+      ? SHORT_TERM_COURSES 
+      : [];
 
   return (
     <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
@@ -113,62 +128,103 @@ export default function CourseEnquiryForm() {
 
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
         {/* NAME */}
-        <input
-          name="name"
-          type="text"
-          placeholder="Full Name *"
-          value={form.name}
-          onChange={(e) => {
-            let value = e.target.value;
-            value = value.replace(/[^a-zA-Z\s]/g, "");
-            value = value.replace(/\s{2,}/g, " ");
-            setForm({ ...form, name: value });
-          }}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg"
-        />
+        <div>
+          <label className="block text-gray-600 text-sm mb-1">Full Name *</label>
+          <input
+            name="name"
+            type="text"
+            placeholder="Enter your full name"
+            value={form.name}
+            onChange={(e) => {
+              let value = e.target.value;
+              value = value.replace(/[^a-zA-Z\s]/g, "");
+              value = value.replace(/\s{2,}/g, " ");
+              setForm({ ...form, name: value });
+            }}
+            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+          />
+        </div>
 
         {/* EMAIL */}
-        <input
-          name="email"
-          type="email"
-          placeholder="Email *"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg"
-        />
+        <div>
+          <label className="block text-gray-600 text-sm mb-1">Email *</label>
+          <input
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            value={form.email}
+            onChange={handleChange}
+            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+          />
+        </div>
 
         {/* PHONE */}
-        <input
-          name="phone"
-          type="tel"
-          placeholder="Phone *"
-          value={form.phone}
-          onChange={(e) => {
-            const value = e.target.value.replace(/\D/g, "");
-            setForm({ ...form, phone: value });
-          }}
-          maxLength={10}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg"
-        />
+        <div>
+          <label className="block text-gray-600 text-sm mb-1">Phone *</label>
+          <input
+            name="phone"
+            type="tel"
+            placeholder="Enter 10-digit phone number"
+            value={form.phone}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              setForm({ ...form, phone: value });
+            }}
+            maxLength={10}
+            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+          />
+        </div>
 
-        {/* COURSE */}
-        <input
-          name="course"
-          placeholder="Course Name *"
-          value={form.course}
-          onChange={handleChange}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg"
-        />
+        {/* COURSE TYPE */}
+        <div>
+          <label className="block text-gray-600 text-sm mb-1">Course Type *</label>
+          <select
+            name="course_type"
+            value={form.course_type}
+            onChange={handleChange}
+            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent cursor-pointer"
+          >
+            <option value="">Select course type</option>
+            <option value="long_term">Long Term Course</option>
+            <option value="short_term">Short Term Course</option>
+          </select>
+        </div>
+
+        {/* COURSE NAME */}
+        <div>
+          <label className="block text-gray-600 text-sm mb-1">Course Name *</label>
+          <select
+            name="course_name"
+            value={form.course_name}
+            onChange={handleChange}
+            disabled={!form.course_type}
+            className={`w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent ${
+              !form.course_type ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+            }`}
+          >
+            <option value="">
+              {form.course_type ? "Select a course" : "First select course type"}
+            </option>
+            {availableCourses.map((course) => (
+              <option key={course.id} value={course.name}>
+                {course.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {/* MESSAGE */}
-        <textarea
-          name="message"
-          placeholder="Message (optional)"
-          value={form.message}
-          onChange={handleChange}
-          className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 resize-none text-sm sm:text-base md:text-lg"
-          rows={3}
-        />
+        <div>
+          <label className="block text-gray-600 text-sm mb-1">Message (optional)</label>
+          <textarea
+            name="message"
+            placeholder="Any additional information..."
+            value={form.message}
+            onChange={handleChange}
+            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 resize-none text-sm sm:text-base md:text-lg bg-transparent"
+            rows={3}
+          />
+        </div>
 
         {/* BUTTON */}
         <button
@@ -179,7 +235,7 @@ export default function CourseEnquiryForm() {
             text-white font-semibold
             px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-4 rounded-full
             text-sm sm:text-base md:text-lg lg:text-xl
-            transition w-full md:w-fit`}
+            transition w-full md:w-fit disabled:opacity-50`}
         >
           {loading ? "Submitting..." : "Submit Enquiry"}
         </button>
