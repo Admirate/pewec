@@ -5,11 +5,11 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Mulish } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { SheetTitle } from "@/components/ui/sheet";
+import PillNav from "@/components/PillNav";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -17,11 +17,11 @@ const mulish = Mulish({
 });
 
 const navItems = [
-  { name: "Home", href: "/" },
-  { name: "About Us", href: "/about" },
-  { name: "Courses", href: "/courses" },
-  { name: "Sister Institutions", href: "/sister-institutions" },
-  { name: "Contact Us", href: "/contact" },
+  { name: "Home", href: "/", label: "Home" },
+  { name: "About Us", href: "/about", label: "About Us" },
+  { name: "Courses", href: "/courses", label: "Courses" },
+  { name: "Sister Institutions", href: "/sister-institutions", label: "Sister Institutions" },
+  { name: "Contact Us", href: "/contact", label: "Contact Us" },
 ];
 
 export default function Navbar() {
@@ -40,7 +40,7 @@ export default function Navbar() {
         <Link href="/">
           <Image
             src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/logo/peweclogo.png"
-            alt="logo"
+            alt="PEWEC Logo"
             width={140}
             height={80}
             className="w-16 sm:w-20 md:w-24 lg:w-32 xl:w-36 h-auto object-contain"
@@ -48,31 +48,19 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex bg-[#c44944] text-white rounded-full px-6 xl:px-10 py-4 xl:py-5 items-center gap-4 xl:gap-8 shadow-md">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                mulish.className,
-                "relative text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-[100%] font-semibold text-white group whitespace-nowrap",
-              )}
-            >
-              {item.name}
+        {/* Desktop: PillNav */}
+        <div className="hidden lg:block">
+          <PillNav
+            items={navItems}
+            baseColor="#c44944"
+            pillColor="#c44944"
+            pillTextColor="#ffffff"
+            hoveredPillTextColor="#c44944"
+            initialLoadAnimation={false}
+          />
+        </div>
 
-              {/* smooth sliding underline */}
-              <span
-                className={cn(
-                  "absolute left-0 -bottom-1.5 h-0.5 bg-white transition-all duration-300 ease-in-out",
-                  isActive(item.href) ? "w-full" : "w-0 group-hover:w-full",
-                )}
-              />
-            </Link>
-          ))}
-        </nav>
-
-        {/* Mobile Screen */}
+        {/* Tablet & Mobile: Sheet Menu */}
         <div className="lg:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
