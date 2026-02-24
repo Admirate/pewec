@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Filter, Download, Eye, Trash2, RefreshCw } from "lucide-react";
+import { Search, Download, Eye, Trash2, RefreshCw } from "lucide-react";
 import type { Enquiry } from "@/lib/constants";
 
 // TODO: Backend Engineer - Implement data fetching from Supabase
-// 1. Create a function to fetch all course_enquiries from Supabase
+// 1. Create a function to fetch all course enquiries from Supabase
 // 2. Use getSupabaseAdmin() from '@/lib/supabase' in an API route
 // 3. Or create a server component to fetch directly
 //
 // Example API route to create: /api/admin/course-enquiries
-// It should return: { data: Enquiry[], error: string | null }
+// It should return: { data: EnquiryWithContact[], error: string | null }
 
 // Mock data for UI development - Replace with real data
 const mockData: Enquiry[] = [
@@ -19,7 +19,6 @@ const mockData: Enquiry[] = [
 
 export default function CourseEnquiriesPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState<"all" | "long_term" | "short_term">("all");
   const [data] = useState<Enquiry[]>(mockData);
   const [loading] = useState(false);
 
@@ -43,16 +42,13 @@ export default function CourseEnquiriesPage() {
     console.log("TODO: Export data to CSV");
   };
 
-  // Filter data based on search and filter
+  // Filter data based on search
   const filteredData = data.filter((item) => {
-    const matchesSearch =
+    return (
       item.course_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.phone?.includes(searchTerm) ||
-      item.enquiry_details?.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesFilter = filterType === "all" || item.course_length === filterType;
-
-    return matchesSearch && matchesFilter;
+      item.enquiry_details?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
 
   const formatDate = (dateString: string) => {
@@ -91,34 +87,17 @@ export default function CourseEnquiriesPage() {
         </div>
       </div>
 
-      {/* Filters */}
+      {/* Search */}
       <div className="bg-white rounded-xl shadow-sm p-4">
-        <div className="flex flex-col sm:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="text"
-              placeholder="Search by name, email, phone, or course..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c44944] focus:border-transparent"
-            />
-          </div>
-
-          {/* Filter by Course Type */}
-          <div className="flex items-center gap-2">
-            <Filter size={20} className="text-gray-400" />
-            <select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value as typeof filterType)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c44944] focus:border-transparent"
-            >
-              <option value="all">All Courses</option>
-              <option value="long_term">Long Term</option>
-              <option value="short_term">Short Term</option>
-            </select>
-          </div>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <input
+            type="text"
+            placeholder="Search by course name, phone, or message..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c44944] focus:border-transparent"
+          />
         </div>
       </div>
 
@@ -129,16 +108,13 @@ export default function CourseEnquiriesPage() {
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Contact
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Course Type
+                  Phone
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Course Name
+                  Course
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Date
@@ -154,13 +130,13 @@ export default function CourseEnquiriesPage() {
             <tbody className="divide-y divide-gray-200">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
                     Loading...
                   </td>
                 </tr>
               ) : filteredData.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
                     No enquiries found. Data will appear here once connected to Supabase.
                   </td>
                 </tr>
@@ -175,17 +151,6 @@ export default function CourseEnquiriesPage() {
                     </td>
                     <td className="px-4 py-4">
                       <div className="text-sm text-gray-500">{enquiry.phone || "-"}</div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          enquiry.course_length === "long_term"
-                            ? "bg-blue-100 text-blue-800"
-                            : "bg-green-100 text-green-800"
-                        }`}
-                      >
-                        {enquiry.course_length === "long_term" ? "Long Term" : "Short Term"}
-                      </span>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-600">
                       {enquiry.course_name || "-"}
@@ -242,7 +207,7 @@ export default function CourseEnquiriesPage() {
       <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
         <p className="text-yellow-800 text-sm">
           <strong>Backend TODO:</strong> Connect this page to Supabase to fetch real data from the{" "}
-          <code className="bg-yellow-100 px-1 rounded">course_enquiries</code> table.
+          <code className="bg-yellow-100 px-1 rounded">enquiries</code> table (where enquiry_type = &apos;course&apos;).
         </p>
       </div>
     </div>

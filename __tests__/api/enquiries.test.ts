@@ -7,9 +7,16 @@ vi.mock("@/lib/supabase", () => ({
   getSupabaseAdmin: vi.fn(),
 }));
 
+// Mock the email module so tests never attempt real SMTP/Resend connections
+vi.mock("@/lib/email", () => ({
+  sendEmail: vi.fn().mockResolvedValue(undefined),
+}));
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+const COURSE_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
 
 const validContactBody = {
   first_name: "John",
@@ -23,8 +30,7 @@ const validContactBody = {
 const validCourseBody = {
   ...validContactBody,
   enquiry_type: "course",
-  course_length: "long_term",
-  course_name: "Teacher Training",
+  course_id: COURSE_UUID,
 };
 
 function makeRequest(body: unknown) {
@@ -35,32 +41,48 @@ function makeRequest(body: unknown) {
   });
 }
 
+type SupabaseMockOptions = {
+  contactData?: { id: string } | null;
+  contactError?: object | null;
+  courseData?: { name: string; description: string | null; rep_email: string | null } | null;
+  courseError?: object | null;
+  enquiryError?: object | null;
+};
+
 /**
  * Sets up the Supabase mock for tests that reach the DB layer.
  * Returns the individual mock functions so tests can assert on call arguments.
  */
 function setupSupabaseMock({
-  contactData = { id: "contact-uuid" } as { id: string } | null,
-  contactError = null as object | null,
-  enquiryError = null as object | null,
-} = {}) {
-  const upsertFn = vi.fn();
-  const selectFn = vi.fn();
-  const singleFn = vi.fn().mockResolvedValue({ data: contactData, error: contactError });
-  const insertFn = vi.fn().mockResolvedValue({ error: enquiryError });
+  contactData = { id: "contact-uuid" },
+  contactError = null,
+  courseData = { name: "Teacher Training", description: "A great course", rep_email: "rep@pewec.com" },
+  courseError = null,
+  enquiryError = null,
+}: SupabaseMockOptions = {}) {
+  // contacts chain: .upsert().select().single()
+  const contactSingleFn = vi.fn().mockResolvedValue({ data: contactData, error: contactError });
+  const contactSelectFn = vi.fn().mockReturnValue({ single: contactSingleFn });
+  const upsertFn = vi.fn().mockReturnValue({ select: contactSelectFn });
 
-  selectFn.mockReturnValue({ single: singleFn });
-  upsertFn.mockReturnValue({ select: selectFn });
+  // courses chain: .select().eq().single()
+  const courseSingleFn = vi.fn().mockResolvedValue({ data: courseData, error: courseError });
+  const courseEqFn = vi.fn().mockReturnValue({ single: courseSingleFn });
+  const courseSelectFn = vi.fn().mockReturnValue({ eq: courseEqFn });
+
+  // enquiries chain: .insert()
+  const insertFn = vi.fn().mockResolvedValue({ error: enquiryError });
 
   vi.mocked(getSupabaseAdmin).mockReturnValue({
     from: vi.fn((table: string) => {
       if (table === "contacts") return { upsert: upsertFn };
+      if (table === "courses") return { select: courseSelectFn };
       if (table === "enquiries") return { insert: insertFn };
       throw new Error(`Unexpected table: ${table}`);
     }),
   } as unknown as ReturnType<typeof getSupabaseAdmin>);
 
-  return { upsertFn, selectFn, singleFn, insertFn };
+  return { upsertFn, insertFn, courseSelectFn, courseEqFn };
 }
 
 // ---------------------------------------------------------------------------
@@ -108,20 +130,17 @@ describe("validation", () => {
     expect(res.status).toBe(400);
   });
 
-  it("returns 400 for a course enquiry missing course_length", async () => {
-    const { course_length: _, ...body } = validCourseBody;
+  it("returns 400 for a course enquiry missing course_id", async () => {
+    const { course_id: _, ...body } = validCourseBody;
     const res = await POST(makeRequest(body));
     expect(res.status).toBe(400);
     const data = await res.json();
-    expect(data.error).toContain("course_length");
+    expect(data.error).toContain("course_id");
   });
 
-  it("returns 400 for a course enquiry missing course_name", async () => {
-    const { course_name: _, ...body } = validCourseBody;
-    const res = await POST(makeRequest(body));
+  it("returns 400 for a course enquiry with a non-UUID course_id", async () => {
+    const res = await POST(makeRequest({ ...validCourseBody, course_id: "not-a-uuid" }));
     expect(res.status).toBe(400);
-    const data = await res.json();
-    expect(data.error).toContain("course_name");
   });
 });
 
@@ -157,22 +176,19 @@ describe("data transformation", () => {
     expect(insertFn).toHaveBeenCalledWith(expect.objectContaining({ enquiry_details: "Hello" }));
   });
 
-  it("sets course_length and course_name to null for non-course enquiries", async () => {
+  it("sets course_id to null for non-course enquiries", async () => {
     const { insertFn } = setupSupabaseMock();
     await POST(makeRequest({ ...validContactBody, enquiry_type: "general" }));
     expect(insertFn).toHaveBeenCalledWith(
-      expect.objectContaining({ course_length: null, course_name: null }),
+      expect.objectContaining({ course_id: null }),
     );
   });
 
-  it("passes course_length and course_name through for course enquiries", async () => {
+  it("passes course_id through for course enquiries", async () => {
     const { insertFn } = setupSupabaseMock();
     await POST(makeRequest(validCourseBody));
     expect(insertFn).toHaveBeenCalledWith(
-      expect.objectContaining({
-        course_length: "long_term",
-        course_name: "Teacher Training",
-      }),
+      expect.objectContaining({ course_id: COURSE_UUID }),
     );
   });
 });
@@ -228,5 +244,13 @@ describe("database errors", () => {
     const data = await res.json();
     expect(data.success).toBe(false);
     expect(data.error).toBe("Failed to create enquiry");
+  });
+
+  it("returns 400 when course_id is not found in DB", async () => {
+    setupSupabaseMock({ courseData: null, courseError: { message: "not found" } });
+    const res = await POST(makeRequest(validCourseBody));
+    expect(res.status).toBe(400);
+    const data = await res.json();
+    expect(data.error).toBe("Course not found");
   });
 });

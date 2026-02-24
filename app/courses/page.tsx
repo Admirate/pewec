@@ -173,7 +173,7 @@ export default function CoursesPage() {
               className={`${mulish.className}
                 text-white mt-3 sm:mt-4 text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl font-medium
                 flex items-center gap-2`}
-              onClick={openModal}
+              onClick={() => openModal()}
             >
               Enquire Now
               <span className="text-xl sm:text-2xl md:text-3xl">→</span>
