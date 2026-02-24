@@ -68,21 +68,29 @@ export default function Footer() {
             className={`${mulish.className} space-y-4 sm:space-y-5 md:space-y-6 text-center lg:text-left`}
           >
             <div className="flex items-start sm:items-center gap-3 sm:gap-4 justify-center lg:justify-start">
-              <MapPin size={18} className="shrink-0 mt-1 sm:mt-0 sm:w-5 sm:h-5" />
+              <MapPin
+                size={18}
+                className="shrink-0 mt-1 sm:mt-0 sm:w-5 sm:h-5"
+              />
               <p className="text-sm sm:text-base md:text-lg lg:text-xl max-w-xs sm:max-w-none">
-                345 Faulconer Drive, Suite 4 • Charlottesville, CA, 12345
+                22-3-643/660, Building No.5, Purani Haveli • Hyderabad – 500002,
+                Telangana, India
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center lg:justify-start">
               <div className="flex items-center gap-2 sm:gap-3">
                 <Phone size={16} className="sm:w-5 sm:h-5" />
-                <p className="text-sm sm:text-base md:text-lg">(+91) 40 24578078</p>
+                <p className="text-sm sm:text-base md:text-lg">
+                  (+91) 40 24578078
+                </p>
               </div>
 
               <div className="flex items-center gap-2 sm:gap-3">
                 <Printer size={16} className="sm:w-5 sm:h-5" />
-                <p className="text-sm sm:text-base md:text-lg">(+91) 40 24520761</p>
+                <p className="text-sm sm:text-base md:text-lg">
+                  (+91) 40 24520761
+                </p>
               </div>
             </div>
 
@@ -109,9 +117,9 @@ export default function Footer() {
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
               className={`${mulish.className}
-                bg-[#0d6b5f] hover:bg-[#0b574d] text-white 
+                bg-[#0d6b5f] hover:bg-[#0b574d] text-white
                 text-base sm:text-lg md:text-xl lg:text-2xl
-                px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 
+                px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5
                 rounded-full shadow-lg transition`}
               onClick={openModal}
             >
@@ -138,7 +146,7 @@ export default function Footer() {
           viewport={{ once: true }}
           className={`${mulish.className}
             flex flex-wrap justify-center lg:justify-start lg:ml-32
-            gap-4 sm:gap-6 md:gap-8 lg:gap-16 
+            gap-4 sm:gap-6 md:gap-8 lg:gap-16
             text-xs sm:text-sm md:text-base lg:text-lg tracking-wide`}
         >
           <Link href="/about" className="hover:opacity-80">
