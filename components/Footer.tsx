@@ -106,7 +106,7 @@ export default function Footer() {
                 text-base sm:text-lg md:text-xl lg:text-2xl
                 px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5
                 rounded-full shadow-lg transition`}
-              onClick={openModal}
+              onClick={() => openModal()}
             >
               Enquire Now
             </motion.button>

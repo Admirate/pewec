@@ -56,7 +56,11 @@ type SupabaseMockOptions = {
 function setupSupabaseMock({
   contactData = { id: "contact-uuid" },
   contactError = null,
-  courseData = { name: "Teacher Training", description: "A great course", rep_email: "rep@pewec.com" },
+  courseData = {
+    name: "Teacher Training",
+    description: "A great course",
+    rep_email: "rep@pewec.com",
+  },
   courseError = null,
   enquiryError = null,
 }: SupabaseMockOptions = {}) {
@@ -179,17 +183,13 @@ describe("data transformation", () => {
   it("sets course_id to null for non-course enquiries", async () => {
     const { insertFn } = setupSupabaseMock();
     await POST(makeRequest({ ...validContactBody, enquiry_type: "general" }));
-    expect(insertFn).toHaveBeenCalledWith(
-      expect.objectContaining({ course_id: null }),
-    );
+    expect(insertFn).toHaveBeenCalledWith(expect.objectContaining({ course_id: null }));
   });
 
   it("passes course_id through for course enquiries", async () => {
     const { insertFn } = setupSupabaseMock();
     await POST(makeRequest(validCourseBody));
-    expect(insertFn).toHaveBeenCalledWith(
-      expect.objectContaining({ course_id: COURSE_UUID }),
-    );
+    expect(insertFn).toHaveBeenCalledWith(expect.objectContaining({ course_id: COURSE_UUID }));
   });
 });
 

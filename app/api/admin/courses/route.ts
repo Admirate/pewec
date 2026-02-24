@@ -17,7 +17,10 @@ export async function GET() {
 
     if (error) {
       console.error("Courses fetch error:", error);
-      return NextResponse.json({ success: false, error: "Failed to fetch courses" }, { status: 500 });
+      return NextResponse.json(
+        { success: false, error: "Failed to fetch courses" },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ success: true, data });
@@ -50,15 +53,14 @@ export async function POST(req: Request) {
     }
 
     const supabase = getSupabaseAdmin();
-    const { data, error } = await supabase
-      .from("courses")
-      .insert(result.data)
-      .select("*")
-      .single();
+    const { data, error } = await supabase.from("courses").insert(result.data).select("*").single();
 
     if (error) {
       console.error("Course insert error:", error);
-      return NextResponse.json({ success: false, error: "Failed to create course" }, { status: 500 });
+      return NextResponse.json(
+        { success: false, error: "Failed to create course" },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ success: true, data }, { status: 201 });
@@ -103,7 +105,10 @@ export async function PATCH(req: Request) {
 
     if (error) {
       console.error("Course update error:", error);
-      return NextResponse.json({ success: false, error: "Failed to update course" }, { status: 500 });
+      return NextResponse.json(
+        { success: false, error: "Failed to update course" },
+        { status: 500 },
+      );
     }
 
     if (!data) {

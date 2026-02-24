@@ -31,7 +31,7 @@ function makeRequest(method: string, body: unknown) {
 }
 
 // GET mock: .select().order().order()
-function setupGetMock(data: typeof SAMPLE_COURSE[] | null, error: object | null = null) {
+function setupGetMock(data: (typeof SAMPLE_COURSE)[] | null, error: object | null = null) {
   const orderFn2 = vi.fn().mockResolvedValue({ data, error });
   const orderFn1 = vi.fn().mockReturnValue({ order: orderFn2 });
   const selectFn = vi.fn().mockReturnValue({ order: orderFn1 });
@@ -69,7 +69,10 @@ function setupUpdateMock(data: typeof SAMPLE_COURSE | null, error: object | null
 
 describe("GET /api/admin/courses", () => {
   it("returns 200 with all courses (active and inactive)", async () => {
-    setupGetMock([SAMPLE_COURSE, { ...SAMPLE_COURSE, id: "b2c3d4e5-f6a7-8901-bcde-f12345678901", is_active: false }]);
+    setupGetMock([
+      SAMPLE_COURSE,
+      { ...SAMPLE_COURSE, id: "b2c3d4e5-f6a7-8901-bcde-f12345678901", is_active: false },
+    ]);
     const res = await GET();
     expect(res.status).toBe(200);
     const json = await res.json();

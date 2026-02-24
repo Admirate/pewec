@@ -71,7 +71,7 @@ export default function Home() {
                     text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl
                     px-5 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 
                     rounded-full shadow-md transition w-fit`}
-                  onClick={openModal}
+                  onClick={() => openModal()}
                 >
                   Enquire Now
                 </motion.button>

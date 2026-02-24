@@ -16,7 +16,10 @@ type CourseEnquiryFormProps = {
   initialCourseName?: string;
 };
 
-export default function CourseEnquiryForm({ onSuccess, initialCourseName }: CourseEnquiryFormProps) {
+export default function CourseEnquiryForm({
+  onSuccess,
+  initialCourseName,
+}: CourseEnquiryFormProps) {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -43,9 +46,7 @@ export default function CourseEnquiryForm({ onSuccess, initialCourseName }: Cour
 
         // Pre-select by name if provided
         if (initialCourseName) {
-          const match = list.find(
-            (c) => c.name.toLowerCase() === initialCourseName.toLowerCase(),
-          );
+          const match = list.find((c) => c.name.toLowerCase() === initialCourseName.toLowerCase());
           if (match) {
             setForm((prev) => ({ ...prev, course_id: match.id }));
           }
@@ -65,13 +66,7 @@ export default function CourseEnquiryForm({ onSuccess, initialCourseName }: Cour
   };
 
   const validate = () => {
-    if (
-      !form.first_name ||
-      !form.last_name ||
-      !form.email ||
-      !form.phone ||
-      !form.course_id
-    ) {
+    if (!form.first_name || !form.last_name || !form.email || !form.phone || !form.course_id) {
       setError("Please fill all required fields");
       return false;
     }

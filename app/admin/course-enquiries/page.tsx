@@ -207,7 +207,8 @@ export default function CourseEnquiriesPage() {
       <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
         <p className="text-yellow-800 text-sm">
           <strong>Backend TODO:</strong> Connect this page to Supabase to fetch real data from the{" "}
-          <code className="bg-yellow-100 px-1 rounded">enquiries</code> table (where enquiry_type = &apos;course&apos;).
+          <code className="bg-yellow-100 px-1 rounded">enquiries</code> table (where enquiry_type =
+          &apos;course&apos;).
         </p>
       </div>
     </div>

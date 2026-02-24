@@ -24,10 +24,17 @@ const optionalText = (max: number) =>
 const EnquirySchema = z
   .object({
     first_name: plainText(100).pipe(
-      z.string().regex(/^[A-Za-z]+( [A-Za-z]+)*$/, "first_name must contain only letters and single spaces"),
+      z
+        .string()
+        .regex(
+          /^[A-Za-z]+( [A-Za-z]+)*$/,
+          "first_name must contain only letters and single spaces",
+        ),
     ),
     last_name: plainText(100).pipe(
-      z.string().regex(/^[A-Za-z]+( [A-Za-z]+)*$/, "last_name must contain only letters and single spaces"),
+      z
+        .string()
+        .regex(/^[A-Za-z]+( [A-Za-z]+)*$/, "last_name must contain only letters and single spaces"),
     ),
     email: z
       .string()
@@ -74,7 +81,10 @@ export async function POST(req: Request) {
 
     if (contactError || !contact) {
       console.error("Contact upsert error:", contactError);
-      return NextResponse.json({ success: false, error: "Failed to create contact" }, { status: 500 });
+      return NextResponse.json(
+        { success: false, error: "Failed to create contact" },
+        { status: 500 },
+      );
     }
 
     // For course enquiries look up the course record to get name/description/rep_email
@@ -110,7 +120,10 @@ export async function POST(req: Request) {
 
     if (enquiryError) {
       console.error("Enquiry insert error:", enquiryError);
-      return NextResponse.json({ success: false, error: "Failed to create enquiry" }, { status: 500 });
+      return NextResponse.json(
+        { success: false, error: "Failed to create enquiry" },
+        { status: 500 },
+      );
     }
 
     // Send emails — soft-fail, errors logged inside sendEmail
