@@ -21,7 +21,7 @@ export default function SuccessConfirmation({
   message,
   subtitle,
   onClose,
-  autoCloseMs = 5000,
+  autoCloseMs = 3000,
 }: SuccessConfirmationProps) {
   const [elapsed, setElapsed] = useState(0);
   const onCloseRef = useRef(onClose);
