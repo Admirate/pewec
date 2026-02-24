@@ -12,6 +12,7 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.95.3",
     "axios": "^1.13.5",
     "class-variance-authority": "^0.7.1",
