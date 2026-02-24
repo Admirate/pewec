@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mulish } from "next/font/google";
-import { LONG_TERM_COURSES, SHORT_TERM_COURSES } from "@/lib/constants";
+import type { Course } from "@/lib/constants";
 import SuccessConfirmation from "@/components/SuccessConfirmation";
 
 const mulish = Mulish({
@@ -12,48 +12,61 @@ const mulish = Mulish({
 
 type CourseEnquiryFormProps = {
   onSuccess?: () => void;
+  /** Pre-select a course by name when the modal opens (e.g. from a CourseCard). */
+  initialCourseName?: string;
 };
 
-export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps) {
+export default function CourseEnquiryForm({
+  onSuccess,
+  initialCourseName,
+}: CourseEnquiryFormProps) {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
 
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
     email: "",
     phone: "",
-    course_length: "" as "long_term" | "short_term" | "",
-    course_name: "",
+    course_id: "",
     message: "",
   });
+
+  // Fetch active courses from the API once on mount
+  useEffect(() => {
+    fetch("/api/courses")
+      .then((r) => r.json())
+      .then((json) => {
+        const list: Course[] = json.data ?? [];
+        setCourses(list);
+
+        // Pre-select by name if provided
+        if (initialCourseName) {
+          const match = list.find((c) => c.name.toLowerCase() === initialCourseName.toLowerCase());
+          if (match) {
+            setForm((prev) => ({ ...prev, course_id: match.id }));
+          }
+        }
+      })
+      .catch(() => {
+        // Non-fatal — user can still pick from an empty list
+      })
+      .finally(() => setCoursesLoading(false));
+  }, [initialCourseName]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-
-    if (name === "course_length") {
-      setForm({
-        ...form,
-        course_length: value as "long_term" | "short_term" | "",
-        course_name: "",
-      });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
+    setForm({ ...form, [name]: value });
   };
 
   const validate = () => {
-    if (
-      !form.first_name ||
-      !form.last_name ||
-      !form.email ||
-      !form.phone ||
-      !form.course_length ||
-      !form.course_name
-    ) {
+    if (!form.first_name || !form.last_name || !form.email || !form.phone || !form.course_id) {
       setError("Please fill all required fields");
       return false;
     }
@@ -96,11 +109,14 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
 
       const res = await fetch("/api/enquiries", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...form,
+          first_name: form.first_name,
+          last_name: form.last_name,
+          email: form.email,
+          phone: form.phone,
+          course_id: form.course_id,
+          message: form.message,
           enquiry_type: "course",
         }),
       });
@@ -110,15 +126,7 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
         throw new Error(errorData?.error || "Something went wrong. Try again.");
       }
 
-      setForm({
-        first_name: "",
-        last_name: "",
-        email: "",
-        phone: "",
-        course_length: "",
-        course_name: "",
-        message: "",
-      });
+      setForm({ first_name: "", last_name: "", email: "", phone: "", course_id: "", message: "" });
       setSubmitted(true);
     } catch (err) {
       if (err instanceof Error) {
@@ -131,12 +139,9 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
     }
   };
 
-  const availableCourses =
-    form.course_length === "long_term"
-      ? LONG_TERM_COURSES
-      : form.course_length === "short_term"
-        ? SHORT_TERM_COURSES
-        : [];
+  // Group courses by type for a nicer <optgroup> layout
+  const longTermCourses = courses.filter((c) => c.type === "long_term");
+  const shortTermCourses = courses.filter((c) => c.type === "short_term");
 
   return (
     <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
@@ -230,41 +235,39 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
               />
             </div>
 
-            {/* COURSE TYPE */}
+            {/* COURSE */}
             <div>
-              <label className="block text-gray-600 text-sm mb-1">Course Type *</label>
+              <label className="block text-gray-600 text-sm mb-1">Course *</label>
               <select
-                name="course_length"
-                value={form.course_length}
+                name="course_id"
+                value={form.course_id}
                 onChange={handleChange}
-                className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent cursor-pointer"
-              >
-                <option value="">Select course type</option>
-                <option value="long_term">Long Term Course</option>
-                <option value="short_term">Short Term Course</option>
-              </select>
-            </div>
-
-            {/* COURSE NAME */}
-            <div>
-              <label className="block text-gray-600 text-sm mb-1">Course Name *</label>
-              <select
-                name="course_name"
-                value={form.course_name}
-                onChange={handleChange}
-                disabled={!form.course_length}
+                disabled={coursesLoading}
                 className={`w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent ${
-                  !form.course_length ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                  coursesLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
                 }`}
               >
                 <option value="">
-                  {form.course_length ? "Select a course" : "First select course type"}
+                  {coursesLoading ? "Loading courses..." : "Select a course"}
                 </option>
-                {availableCourses.map((course) => (
-                  <option key={course.id} value={course.name}>
-                    {course.name}
-                  </option>
-                ))}
+                {longTermCourses.length > 0 && (
+                  <optgroup label="Long Term Courses">
+                    {longTermCourses.map((course) => (
+                      <option key={course.id} value={course.id}>
+                        {course.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+                {shortTermCourses.length > 0 && (
+                  <optgroup label="Short Term Courses">
+                    {shortTermCourses.map((course) => (
+                      <option key={course.id} value={course.id}>
+                        {course.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
               </select>
             </div>
 
@@ -284,7 +287,7 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
             {/* BUTTON */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || coursesLoading}
               className={`${mulish.className}
             bg-[#006457] hover:bg-[#05443c]
             text-white font-semibold

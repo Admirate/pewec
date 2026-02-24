@@ -5,7 +5,14 @@ import { Mulish } from "next/font/google";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEnquiryModal } from "@/components/GlobalEnquiryModal";
-import { MapPin, Phone, Printer, Facebook, Linkedin, Instagram } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Printer,
+  Facebook,
+  Linkedin,
+  Instagram,
+} from "lucide-react";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -61,31 +68,30 @@ export default function Footer() {
             className={`${mulish.className} space-y-4 sm:space-y-5 md:space-y-6 text-center lg:text-left`}
           >
             <div className="flex items-start sm:items-center gap-3 sm:gap-4 justify-center lg:justify-start">
-              <MapPin size={18} className="shrink-0 mt-1 sm:mt-0 sm:w-5 sm:h-5" />
+              <MapPin
+                size={18}
+                className="shrink-0 mt-1 sm:mt-0 sm:w-5 sm:h-5"
+              />
               <p className="text-sm sm:text-base md:text-lg lg:text-xl max-w-xs sm:max-w-none">
-                22-3-643/660, Building No.5, Purani Haveli • Hyderabad – 500002, Telangana, India
+                22-3-643/660, Building No.5, Purani Haveli
+                <br />
+                Hyderabad – 500002, Telangana, India
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center lg:justify-start">
               <div className="flex items-center gap-2 sm:gap-3">
                 <Phone size={16} className="sm:w-5 sm:h-5" />
-                <p className="text-sm sm:text-base md:text-lg">(+91) 40 24578078</p>
+                <p className="text-sm sm:text-base md:text-lg">
+                  (+91) 40 24578078
+                </p>
               </div>
 
               <div className="flex items-center gap-2 sm:gap-3">
                 <Printer size={16} className="sm:w-5 sm:h-5" />
-                <p className="text-sm sm:text-base md:text-lg">(+91) 40 24520761</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 sm:gap-6 justify-center lg:justify-start mt-3 sm:mt-4">
-              <p className="text-xs sm:text-sm opacity-80">Social Media</p>
-
-              <div className="flex gap-4 sm:gap-5">
-                <Facebook className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:scale-110 transition" />
-                <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:scale-110 transition" />
-                <Instagram className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:scale-110 transition" />
+                <p className="text-sm sm:text-base md:text-lg">
+                  (+91) 40 24520761
+                </p>
               </div>
             </div>
           </motion.div>
@@ -106,7 +112,7 @@ export default function Footer() {
                 text-base sm:text-lg md:text-xl lg:text-2xl
                 px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5
                 rounded-full shadow-lg transition`}
-              onClick={openModal}
+              onClick={() => openModal()}
             >
               Enquire Now
             </motion.button>

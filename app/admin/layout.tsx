@@ -4,7 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Mulish } from "next/font/google";
-import { LayoutDashboard, GraduationCap, MessageSquare, LogOut, Menu, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  GraduationCap,
+  MessageSquare,
+  BookOpen,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 import { createAdminBrowserClient } from "@/lib/supabase";
 
@@ -28,6 +36,11 @@ const sidebarLinks = [
     name: "Contact Enquiries",
     href: "/admin/contact-enquiries",
     icon: MessageSquare,
+  },
+  {
+    name: "Courses",
+    href: "/admin/courses",
+    icon: BookOpen,
   },
 ];
 
