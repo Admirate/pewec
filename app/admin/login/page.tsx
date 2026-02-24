@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Mulish } from "next/font/google";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { createAdminBrowserClient } from "@/lib/supabase";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -39,31 +40,18 @@ export default function AdminLoginPage() {
     try {
       setLoading(true);
 
-      // TODO: Backend Engineer - Implement actual authentication
-      // Option 1: Use Supabase Auth
-      // Option 2: Create a custom API route /api/admin/login
-      // Option 3: Use NextAuth.js
-      //
-      // Example API call:
-      // const res = await fetch("/api/admin/login", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(form),
-      // });
-      // const data = await res.json();
-      // if (data.success) {
-      //   localStorage.setItem("admin_token", data.token);
-      //   router.push("/admin");
-      // }
+      const supabase = createAdminBrowserClient();
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: form.email,
+        password: form.password,
+      });
 
-      // Temporary: Simple password check (REPLACE THIS!)
-      // This is NOT secure - just for demo purposes
-      if (form.email === "admin@pewec.com" && form.password === "admin123") {
-        localStorage.setItem("admin_authenticated", "true");
-        router.push("/admin");
-      } else {
+      if (authError) {
         setError("Invalid email or password");
+        return;
       }
+
+      router.push("/admin");
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -156,20 +144,6 @@ export default function AdminLoginPage() {
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
-
-          {/* Demo Credentials Note */}
-          <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
-            <p className="text-yellow-800 text-sm">
-              <strong>Demo Credentials:</strong>
-              <br />
-              Email: admin@pewec.com
-              <br />
-              Password: admin123
-            </p>
-            <p className="text-yellow-600 text-xs mt-2">
-              ⚠️ Backend: Replace with secure authentication
-            </p>
-          </div>
         </div>
 
         {/* Back to Website Link */}
