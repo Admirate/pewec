@@ -2,26 +2,26 @@
 
 import { useState } from "react";
 import { Search, Filter, Download, Eye, Trash2, RefreshCw } from "lucide-react";
-import type { ContactEnquiry } from "@/lib/constants";
+import type { Enquiry } from "@/lib/constants";
 import { ENQUIRY_TYPES } from "@/lib/constants";
 
 // TODO: Backend Engineer - Implement data fetching from Supabase
 // 1. Create a function to fetch all contact_enquiries from Supabase
 // 2. Use getSupabaseAdmin() from '@/lib/supabase' in an API route
 // 3. Or create a server component to fetch directly
-// 
+//
 // Example API route to create: /api/admin/contact-enquiries
-// It should return: { data: ContactEnquiry[], error: string | null }
+// It should return: { data: Enquiry[], error: string | null }
 
 // Mock data for UI development - Replace with real data
-const mockData: ContactEnquiry[] = [
+const mockData: Enquiry[] = [
   // Backend will populate this from Supabase
 ];
 
 export default function ContactEnquiriesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
-  const [data] = useState<ContactEnquiry[]>(mockData);
+  const [data] = useState<Enquiry[]>(mockData);
   const [loading] = useState(false);
 
   // TODO: Backend - Implement refresh function
@@ -46,15 +46,12 @@ export default function ContactEnquiriesPage() {
 
   // Filter data based on search and filter
   const filteredData = data.filter((item) => {
-    const fullName = `${item.first_name} ${item.last_name}`.toLowerCase();
     const matchesSearch =
-      fullName.includes(searchTerm.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.phone.includes(searchTerm) ||
-      (item.message?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
+      item.enquiry_details?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.phone?.includes(searchTerm) ||
+      item.contact_id.includes(searchTerm);
 
-    const matchesFilter =
-      filterType === "all" || item.enquiry_type === filterType;
+    const matchesFilter = filterType === "all" || item.enquiry_type === filterType;
 
     return matchesSearch && matchesFilter;
   });
@@ -89,12 +86,8 @@ export default function ContactEnquiriesPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-            Contact Enquiries
-          </h2>
-          <p className="text-gray-500 mt-1">
-            Manage all contact form submissions
-          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Contact Enquiries</h2>
+          <p className="text-gray-500 mt-1">Manage all contact form submissions</p>
         </div>
         <div className="flex gap-2">
           <button
@@ -119,10 +112,7 @@ export default function ContactEnquiriesPage() {
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search */}
           <div className="flex-1 relative">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={20}
-            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
               placeholder="Search by name, email, phone, or message..."
@@ -195,20 +185,20 @@ export default function ContactEnquiriesPage() {
                 </tr>
               ) : (
                 filteredData.map((enquiry) => (
-                  <tr key={enquiry.id} className={`hover:bg-gray-50 ${!enquiry.is_read ? 'bg-blue-50' : ''}`}>
+                  <tr
+                    key={enquiry.id}
+                    className={`hover:bg-gray-50 ${!enquiry.is_read ? "bg-blue-50" : ""}`}
+                  >
                     <td className="px-4 py-4">
-                      <div className="font-medium text-gray-800">
-                        {enquiry.first_name} {enquiry.last_name}
-                      </div>
+                      <div className="font-medium text-gray-800">{enquiry.contact_id}</div>
                     </td>
                     <td className="px-4 py-4">
-                      <div className="text-sm text-gray-600">{enquiry.email}</div>
-                      <div className="text-sm text-gray-500">{enquiry.phone}</div>
+                      <div className="text-sm text-gray-500">{enquiry.phone || "-"}</div>
                     </td>
                     <td className="px-4 py-4">
                       <span
                         className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getEnquiryTypeColor(
-                          enquiry.enquiry_type
+                          enquiry.enquiry_type,
                         )}`}
                       >
                         {getEnquiryTypeName(enquiry.enquiry_type)}
@@ -216,7 +206,7 @@ export default function ContactEnquiriesPage() {
                     </td>
                     <td className="px-4 py-4">
                       <p className="text-sm text-gray-600 max-w-xs truncate">
-                        {enquiry.message || "-"}
+                        {enquiry.enquiry_details || "-"}
                       </p>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500">
@@ -261,9 +251,7 @@ export default function ContactEnquiriesPage() {
         {/* Pagination placeholder */}
         {filteredData.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-200 flex items-center justify-between">
-            <p className="text-sm text-gray-500">
-              Showing {filteredData.length} results
-            </p>
+            <p className="text-sm text-gray-500">Showing {filteredData.length} results</p>
             {/* TODO: Backend - Add pagination */}
           </div>
         )}

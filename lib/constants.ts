@@ -23,26 +23,22 @@ export const ENQUIRY_TYPES = [
 ];
 
 // Type definitions for our tables
-export type CourseEnquiry = {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  course_type: "long_term" | "short_term";
-  course_name: string;
-  message: string | null;
-  created_at: string;
-  is_read: boolean;
-};
-
-export type ContactEnquiry = {
+export type Contact = {
   id: string;
   first_name: string;
   last_name: string;
   email: string;
-  phone: string;
-  enquiry_type: "general" | "admission" | "fees" | "facilities" | "other";
-  message: string | null;
   created_at: string;
+};
+
+export type Enquiry = {
+  id: string;
+  contact_id: string;
+  enquiry_type: "course" | "general" | "admission" | "fees" | "facilities" | "other";
+  enquiry_details: string | null;
+  phone: string | null;
+  course_length: "long_term" | "short_term" | null;
+  course_name: string | null;
   is_read: boolean;
+  created_at: string;
 };

@@ -8,7 +8,7 @@ export const courseEnquiryEmailTemplate = (data: {
   course_name: string;
 }) => {
   const courseTypeLabel = data.course_type === "long_term" ? "Long Term" : "Short Term";
-  
+
   return `
 <!DOCTYPE html>
 <html>
@@ -139,9 +139,9 @@ export const contactEnquiryEmailTemplate = (data: {
     facilities: "Facilities & Campus",
     other: "Other",
   };
-  
+
   const enquiryTypeLabel = enquiryTypeLabels[data.enquiry_type] || data.enquiry_type;
-  
+
   return `
 <!DOCTYPE html>
 <html>

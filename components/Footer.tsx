@@ -5,14 +5,7 @@ import { Mulish } from "next/font/google";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEnquiryModal } from "@/components/GlobalEnquiryModal";
-import {
-  MapPin,
-  Phone,
-  Printer,
-  Facebook,
-  Linkedin,
-  Instagram,
-} from "lucide-react";
+import { MapPin, Phone, Printer, Facebook, Linkedin, Instagram } from "lucide-react";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -39,7 +32,7 @@ export default function Footer() {
           transition={{ duration: 1 }}
           className="w-full flex justify-center mb-8 sm:mb-10 md:mb-12 origin-left"
         >
-          <div className="w-full max-w-6xl h-[4px] sm:h-[6px] bg-[#e6c068] shadow-[0px_10px_9.4px_1px_#0000002E]" />
+          <div className="w-full max-w-6xl h-1 sm:h-1.5 bg-[#e6c068] shadow-[0px_10px_9.4px_1px_#0000002E]" />
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center justify-center w-full gap-8 sm:gap-10 lg:gap-16 xl:gap-32">
@@ -70,7 +63,7 @@ export default function Footer() {
             <div className="flex items-start sm:items-center gap-3 sm:gap-4 justify-center lg:justify-start">
               <MapPin size={18} className="shrink-0 mt-1 sm:mt-0 sm:w-5 sm:h-5" />
               <p className="text-sm sm:text-base md:text-lg lg:text-xl max-w-xs sm:max-w-none">
-                345 Faulconer Drive, Suite 4 • Charlottesville, CA, 12345
+                22-3-643/660, Building No.5, Purani Haveli • Hyderabad – 500002, Telangana, India
               </p>
             </div>
 
@@ -109,9 +102,9 @@ export default function Footer() {
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
               className={`${mulish.className}
-                bg-[#0d6b5f] hover:bg-[#0b574d] text-white 
+                bg-[#0d6b5f] hover:bg-[#0b574d] text-white
                 text-base sm:text-lg md:text-xl lg:text-2xl
-                px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 
+                px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5
                 rounded-full shadow-lg transition`}
               onClick={openModal}
             >
@@ -128,7 +121,7 @@ export default function Footer() {
           transition={{ duration: 1 }}
           className="w-full flex justify-center mt-10 sm:mt-12 md:mt-14 mb-6 sm:mb-8 origin-left"
         >
-          <div className="w-full max-w-6xl h-[4px] sm:h-[6px] bg-[#e6c068] shadow-[0px_10px_9.4px_1px_#0000002E]" />
+          <div className="w-full max-w-6xl h-1 sm:h-1.5 bg-[#e6c068] shadow-[0px_10px_9.4px_1px_#0000002E]" />
         </motion.div>
 
         <motion.div
@@ -138,7 +131,7 @@ export default function Footer() {
           viewport={{ once: true }}
           className={`${mulish.className}
             flex flex-wrap justify-center lg:justify-start lg:ml-32
-            gap-4 sm:gap-6 md:gap-8 lg:gap-16 
+            gap-4 sm:gap-6 md:gap-8 lg:gap-16
             text-xs sm:text-sm md:text-base lg:text-lg tracking-wide`}
         >
           <Link href="/about" className="hover:opacity-80">

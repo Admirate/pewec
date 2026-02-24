@@ -31,9 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
       >
-        <GlobalEnquiryModal>
-          {children}
-        </GlobalEnquiryModal>
+        <GlobalEnquiryModal>{children}</GlobalEnquiryModal>
       </body>
     </html>
   );

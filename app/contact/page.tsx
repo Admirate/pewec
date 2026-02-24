@@ -63,8 +63,7 @@ export default function ContactPage() {
             </h2>
 
             <p className="text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed">
-              223, 6A3 Building adjacent to Durru Shehvar Hospital, No 5 Purani
-              Haveli Road,
+              223, 6A3 Building adjacent to Durru Shehvar Hospital, No 5 Purani Haveli Road,
               <br /> Hyderabad Telangana 500002
             </p>
           </div>

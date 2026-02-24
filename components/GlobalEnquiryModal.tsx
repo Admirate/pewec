@@ -10,11 +10,7 @@ const EnquiryContext = createContext({
 
 export const useEnquiryModal = () => useContext(EnquiryContext);
 
-export default function GlobalEnquiryModal({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function GlobalEnquiryModal({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
 
   const openModal = () => setOpen(true);
@@ -25,7 +21,7 @@ export default function GlobalEnquiryModal({
       {children}
 
       <Modal open={open} onClose={closeModal}>
-        <CourseEnquiryForm />
+        <CourseEnquiryForm onSuccess={closeModal} />
       </Modal>
     </EnquiryContext.Provider>
   );

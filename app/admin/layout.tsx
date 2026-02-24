@@ -4,14 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Mulish } from "next/font/google";
-import { 
-  LayoutDashboard, 
-  GraduationCap, 
-  MessageSquare, 
-  LogOut,
-  Menu,
-  X
-} from "lucide-react";
+import { LayoutDashboard, GraduationCap, MessageSquare, LogOut, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const mulish = Mulish({
@@ -37,11 +30,7 @@ const sidebarLinks = [
   },
 ];
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -156,9 +145,7 @@ export default function AdminLayout({
                 href={link.href}
                 onClick={() => setSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                  active
-                    ? "bg-white text-[#c44944] font-semibold"
-                    : "hover:bg-white/10"
+                  active ? "bg-white text-[#c44944] font-semibold" : "hover:bg-white/10"
                 }`}
               >
                 <Icon size={20} />
@@ -198,9 +185,7 @@ export default function AdminLayout({
             >
               <Menu size={24} />
             </button>
-            <h1 className="text-lg sm:text-xl font-semibold text-gray-800">
-              Admin Dashboard
-            </h1>
+            <h1 className="text-lg sm:text-xl font-semibold text-gray-800">Admin Dashboard</h1>
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500 hidden sm:block">Welcome, Admin</span>
               <div className="w-8 h-8 bg-[#c44944] rounded-full flex items-center justify-center text-white font-semibold">

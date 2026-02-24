@@ -48,9 +48,7 @@ export default function AdminDashboard() {
     <div className="space-y-6">
       {/* Page Title */}
       <div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-          Dashboard Overview
-        </h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Dashboard Overview</h2>
         <p className="text-gray-500 mt-1">
           Welcome to PEWEC Admin Panel. Monitor all enquiries here.
         </p>
@@ -69,9 +67,7 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-500">{stat.title}</p>
-                  <p className="text-3xl font-bold text-gray-800 mt-1">
-                    {stat.value}
-                  </p>
+                  <p className="text-3xl font-bold text-gray-800 mt-1">{stat.value}</p>
                 </div>
                 <div className={`${stat.color} p-3 rounded-lg`}>
                   <Icon className="text-white" size={24} />
@@ -84,9 +80,7 @@ export default function AdminDashboard() {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-xl shadow-sm p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">
-          Quick Actions
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
         <div className="flex flex-wrap gap-3">
           <Link
             href="/admin/course-enquiries"
@@ -115,8 +109,8 @@ export default function AdminDashboard() {
           🔧 Backend Integration Required
         </h3>
         <p className="text-yellow-700 text-sm">
-          This dashboard needs to be connected to Supabase to display real data.
-          See the TODO comments in the code for implementation details.
+          This dashboard needs to be connected to Supabase to display real data. See the TODO
+          comments in the code for implementation details.
         </p>
       </div>
     </div>

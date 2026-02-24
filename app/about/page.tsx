@@ -64,12 +64,11 @@ export default function AboutPage() {
           <p
             className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
           >
-            Princess Esin Women's Educational Centre works under the Nazima
-            Hyderabad Women's Association Trust. The Trust was established in
-            1999 to support women through education and social development.
-            PEWEC was created to give women access to learning that improves
-            confidence, skills and opportunities. We believe every woman
-            deserves the chance to learn, grow, and build a better life.
+            Princess Esin Women's Educational Centre works under the Nazima Hyderabad Women's
+            Association Trust. The Trust was established in 1999 to support women through education
+            and social development. PEWEC was created to give women access to learning that improves
+            confidence, skills and opportunities. We believe every woman deserves the chance to
+            learn, grow, and build a better life.
           </p>
 
           <div className="w-full border-b-4 border-[#7EACB5] mt-6 sm:mt-8"></div>
@@ -91,10 +90,9 @@ export default function AboutPage() {
             <p
               className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
             >
-              The centre is guided by experienced members who believe in
-              education as support from across all walks of life. The management
-              ensures that courses remain affordable, practical and focused on
-              real outcomes.
+              The centre is guided by experienced members who believe in education as support from
+              across all walks of life. The management ensures that courses remain affordable,
+              practical and focused on real outcomes.
             </p>
           </motion.div>
 
@@ -113,9 +111,8 @@ export default function AboutPage() {
             <p
               className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
             >
-              Our teachers and instructors are trained, patient and supportive.
-              They focus on clear teaching and practical learning so students
-              feel comfortable and confident.
+              Our teachers and instructors are trained, patient and supportive. They focus on clear
+              teaching and practical learning so students feel comfortable and confident.
             </p>
           </motion.div>
         </div>
@@ -150,8 +147,7 @@ export default function AboutPage() {
             <p
               className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-3 sm:mb-4`}
             >
-              The campus offers a calm and safe place to learn. Facilities
-              include:
+              The campus offers a calm and safe place to learn. Facilities include:
             </p>
 
             <ul
