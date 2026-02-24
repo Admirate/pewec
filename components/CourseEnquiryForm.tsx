@@ -3,15 +3,20 @@
 import { useState } from "react";
 import { Mulish } from "next/font/google";
 import { LONG_TERM_COURSES, SHORT_TERM_COURSES } from "@/lib/constants";
+import SuccessConfirmation from "@/components/SuccessConfirmation";
 
 const mulish = Mulish({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-export default function CourseEnquiryForm() {
+type CourseEnquiryFormProps = {
+  onSuccess?: () => void;
+};
+
+export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps) {
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
@@ -72,7 +77,6 @@ export default function CourseEnquiryForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setSuccess("");
 
     if (!validate()) return;
 
@@ -90,9 +94,11 @@ export default function CourseEnquiryForm() {
         }),
       });
 
-      if (!res.ok) throw new Error("Failed");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        throw new Error(errorData?.error || "Something went wrong. Try again.");
+      }
 
-      setSuccess("Enquiry submitted successfully! We will contact you soon.");
       setForm({
         first_name: "",
         last_name: "",
@@ -102,8 +108,13 @@ export default function CourseEnquiryForm() {
         course_name: "",
         message: "",
       });
-    } catch {
-      setError("Something went wrong. Try again.");
+      setSubmitted(true);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong. Try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -115,6 +126,21 @@ export default function CourseEnquiryForm() {
       ? SHORT_TERM_COURSES
       : [];
 
+  if (submitted) {
+    return (
+      <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
+        <SuccessConfirmation
+          message="Thank you for your enquiry!"
+          subtitle="Our team will contact you about your course soon."
+          onClose={() => {
+            setSubmitted(false);
+            onSuccess?.();
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
       <h2
@@ -122,13 +148,6 @@ export default function CourseEnquiryForm() {
       >
         Course Enquiry Form
       </h2>
-
-      {/* SUCCESS */}
-      {success && (
-        <div className="bg-green-100 text-green-700 p-2 sm:p-3 rounded mb-3 sm:mb-4 text-sm sm:text-base">
-          {success}
-        </div>
-      )}
 
       {/* ERROR */}
       {error && (

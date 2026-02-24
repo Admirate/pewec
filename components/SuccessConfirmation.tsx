@@ -24,26 +24,31 @@ export default function SuccessConfirmation({
   autoCloseMs = 5000,
 }: SuccessConfirmationProps) {
   const [elapsed, setElapsed] = useState(0);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
+  // Tick the countdown timer
   useEffect(() => {
     const interval = setInterval(() => {
-      setElapsed((prev) => {
-        const next = prev + 50;
-        if (next >= autoCloseMs) {
-          clearInterval(interval);
-          onClose();
-        }
-        return next;
-      });
+      setElapsed((prev) => Math.min(prev + 50, autoCloseMs));
     }, 50);
 
     return () => clearInterval(interval);
-  }, [autoCloseMs, onClose]);
+  }, [autoCloseMs]);
+
+  // Fire onClose when timer completes
+  useEffect(() => {
+    if (elapsed >= autoCloseMs) {
+      onCloseRef.current();
+    }
+  }, [elapsed, autoCloseMs]);
 
   const progress = Math.max(0, 1 - elapsed / autoCloseMs);
 
   return (
     <motion.div
+      role="status"
+      aria-live="polite"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
