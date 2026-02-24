@@ -39,7 +39,7 @@ export default function Footer() {
           transition={{ duration: 1 }}
           className="w-full flex justify-center mb-8 sm:mb-10 md:mb-12 origin-left"
         >
-          <div className="w-full max-w-6xl h-[4px] sm:h-[6px] bg-[#e6c068] shadow-[0px_10px_9.4px_1px_#0000002E]" />
+          <div className="w-full max-w-6xl h-1 sm:h-1.5 bg-[#e6c068] shadow-[0px_10px_9.4px_1px_#0000002E]" />
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center justify-center w-full gap-8 sm:gap-10 lg:gap-16 xl:gap-32">
@@ -136,7 +136,7 @@ export default function Footer() {
           transition={{ duration: 1 }}
           className="w-full flex justify-center mt-10 sm:mt-12 md:mt-14 mb-6 sm:mb-8 origin-left"
         >
-          <div className="w-full max-w-6xl h-[4px] sm:h-[6px] bg-[#e6c068] shadow-[0px_10px_9.4px_1px_#0000002E]" />
+          <div className="w-full max-w-6xl h-1 sm:h-1.5 bg-[#e6c068] shadow-[0px_10px_9.4px_1px_#0000002E]" />
         </motion.div>
 
         <motion.div
