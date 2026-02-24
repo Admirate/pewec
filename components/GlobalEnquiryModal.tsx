@@ -25,7 +25,7 @@ export default function GlobalEnquiryModal({
       {children}
 
       <Modal open={open} onClose={closeModal}>
-        <CourseEnquiryForm />
+        <CourseEnquiryForm onSuccess={closeModal} />
       </Modal>
     </EnquiryContext.Provider>
   );
