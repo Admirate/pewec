@@ -126,23 +126,20 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
       ? SHORT_TERM_COURSES
       : [];
 
-  if (submitted) {
-    return (
-      <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
+  return (
+    <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
+      {submitted ? (
         <SuccessConfirmation
           message="Thank you for your enquiry!"
           subtitle="Our team will contact you about your course soon."
           onClose={() => {
             setSubmitted(false);
+            setError("");
             onSuccess?.();
           }}
         />
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
+      ) : (
+      <>
       <h2
         className={`${mulish.className} text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 sm:mb-6 text-[#c44944]`}
       >
@@ -286,6 +283,8 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
           {loading ? "Submitting..." : "Submit Enquiry"}
         </button>
       </form>
+      </>
+      )}
     </div>
   );
 }
