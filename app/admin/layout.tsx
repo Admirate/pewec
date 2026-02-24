@@ -5,7 +5,8 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Mulish } from "next/font/google";
 import { LayoutDashboard, GraduationCap, MessageSquare, LogOut, Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { createAdminBrowserClient } from "@/lib/supabase";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -34,64 +35,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-
-  // Check authentication on mount
-  useEffect(() => {
-    // Skip auth check for login page
-    if (pathname === "/admin/login") {
-      setIsAuthenticated(true);
-      return;
-    }
-
-    // TODO: Backend Engineer - Replace with proper auth check
-    // Option 1: Check Supabase Auth session
-    // Option 2: Verify JWT token with API
-    // Option 3: Use NextAuth.js session
-    //
-    // Example:
-    // const checkAuth = async () => {
-    //   const res = await fetch("/api/admin/verify");
-    //   const data = await res.json();
-    //   if (!data.authenticated) {
-    //     router.push("/admin/login");
-    //   } else {
-    //     setIsAuthenticated(true);
-    //   }
-    // };
-    // checkAuth();
-
-    // Temporary: Simple localStorage check (NOT SECURE - just for demo)
-    const auth = localStorage.getItem("admin_authenticated");
-    if (auth !== "true") {
-      router.push("/admin/login");
-    } else {
-      setIsAuthenticated(true);
-    }
-  }, [pathname, router]);
 
   const isActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin";
     return pathname.startsWith(href);
   };
 
-  const handleLogout = () => {
-    // TODO: Backend Engineer - Implement proper logout
-    // Clear session/token, call logout API, etc.
-    localStorage.removeItem("admin_authenticated");
+  const handleLogout = async () => {
+    const supabase = createAdminBrowserClient();
+    await supabase.auth.signOut();
     router.push("/admin/login");
   };
 
-  // Show nothing while checking auth (prevents flash)
-  if (isAuthenticated === null) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="text-gray-500">Loading...</div>
-      </div>
-    );
-  }
-
-  // Login page gets minimal layout
+  // Login page gets minimal layout — middleware handles auth gating
   if (pathname === "/admin/login") {
     return <>{children}</>;
   }
