@@ -15,10 +15,11 @@ export default function CourseEnquiryForm() {
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
-    name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     phone: "",
-    course_type: "" as "long_term" | "short_term" | "",
+    course_length: "" as "long_term" | "short_term" | "",
     course_name: "",
     message: "",
   });
@@ -27,29 +28,35 @@ export default function CourseEnquiryForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    
-    if (name === "course_type") {
-      setForm({ ...form, course_type: value as "long_term" | "short_term" | "", course_name: "" });
+
+    if (name === "course_length") {
+      setForm({ ...form, course_length: value as "long_term" | "short_term" | "", course_name: "" });
     } else {
       setForm({ ...form, [name]: value });
     }
   };
 
   const validate = () => {
-    if (!form.name || !form.email || !form.phone || !form.course_type || !form.course_name) {
+    if (!form.first_name || !form.last_name || !form.email || !form.phone || !form.course_length || !form.course_name) {
       setError("Please fill all required fields");
+      return false;
+    }
+
+    const nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+
+    if (!nameRegex.test(form.first_name.trim())) {
+      setError("First name should contain only alphabets");
+      return false;
+    }
+
+    if (!nameRegex.test(form.last_name.trim())) {
+      setError("Last name should contain only alphabets");
       return false;
     }
 
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(form.email)) {
       setError("Enter valid email");
-      return false;
-    }
-
-    const nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
-    if (!nameRegex.test(form.name.trim())) {
-      setError("Name should contain only alphabets and single spaces");
       return false;
     }
 
@@ -72,22 +79,26 @@ export default function CourseEnquiryForm() {
     try {
       setLoading(true);
 
-      const res = await fetch("/api/course-enquiry", {
+      const res = await fetch("/api/enquiries", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          enquiry_type: "course",
+        }),
       });
 
       if (!res.ok) throw new Error("Failed");
 
       setSuccess("Enquiry submitted successfully! We will contact you soon.");
       setForm({
-        name: "",
+        first_name: "",
+        last_name: "",
         email: "",
         phone: "",
-        course_type: "",
+        course_length: "",
         course_name: "",
         message: "",
       });
@@ -98,10 +109,10 @@ export default function CourseEnquiryForm() {
     }
   };
 
-  const availableCourses = form.course_type === "long_term" 
-    ? LONG_TERM_COURSES 
-    : form.course_type === "short_term" 
-      ? SHORT_TERM_COURSES 
+  const availableCourses = form.course_length === "long_term"
+    ? LONG_TERM_COURSES
+    : form.course_length === "short_term"
+      ? SHORT_TERM_COURSES
       : [];
 
   return (
@@ -127,22 +138,38 @@ export default function CourseEnquiryForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
-        {/* NAME */}
-        <div>
-          <label className="block text-gray-600 text-sm mb-1">Full Name *</label>
-          <input
-            name="name"
-            type="text"
-            placeholder="Enter your full name"
-            value={form.name}
-            onChange={(e) => {
-              let value = e.target.value;
-              value = value.replace(/[^a-zA-Z\s]/g, "");
-              value = value.replace(/\s{2,}/g, " ");
-              setForm({ ...form, name: value });
-            }}
-            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
-          />
+        {/* NAME FIELDS */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div>
+            <label className="block text-gray-600 text-sm mb-1">First Name *</label>
+            <input
+              name="first_name"
+              type="text"
+              placeholder="First name"
+              value={form.first_name}
+              onChange={(e) => {
+                let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+                value = value.replace(/\s{2,}/g, " ");
+                setForm({ ...form, first_name: value });
+              }}
+              className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-600 text-sm mb-1">Last Name *</label>
+            <input
+              name="last_name"
+              type="text"
+              placeholder="Last name"
+              value={form.last_name}
+              onChange={(e) => {
+                let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+                value = value.replace(/\s{2,}/g, " ");
+                setForm({ ...form, last_name: value });
+              }}
+              className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+            />
+          </div>
         </div>
 
         {/* EMAIL */}
@@ -179,8 +206,8 @@ export default function CourseEnquiryForm() {
         <div>
           <label className="block text-gray-600 text-sm mb-1">Course Type *</label>
           <select
-            name="course_type"
-            value={form.course_type}
+            name="course_length"
+            value={form.course_length}
             onChange={handleChange}
             className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent cursor-pointer"
           >
@@ -197,13 +224,13 @@ export default function CourseEnquiryForm() {
             name="course_name"
             value={form.course_name}
             onChange={handleChange}
-            disabled={!form.course_type}
+            disabled={!form.course_length}
             className={`w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent ${
-              !form.course_type ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              !form.course_length ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
             }`}
           >
             <option value="">
-              {form.course_type ? "Select a course" : "First select course type"}
+              {form.course_length ? "Select a course" : "First select course type"}
             </option>
             {availableCourses.map((course) => (
               <option key={course.id} value={course.name}>
