@@ -50,7 +50,7 @@ const PillNav: React.FC<PillNavProps> = ({
         const pill = circle.parentElement as HTMLElement;
         const rect = pill.getBoundingClientRect();
         const { width: w, height: h } = rect;
-        const R = (w * w / 4 + h * h) / (2 * h);
+        const R = ((w * w) / 4 + h * h) / (2 * h);
         const D = Math.ceil(2 * R) + 2;
         const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
         const originY = D - delta;
@@ -142,11 +142,7 @@ const PillNav: React.FC<PillNavProps> = ({
   } as React.CSSProperties;
 
   return (
-    <nav
-      className={`flex items-center ${className}`}
-      aria-label="Primary"
-      style={cssVars}
-    >
+    <nav className={`flex items-center ${className}`} aria-label="Primary" style={cssVars}>
       <div
         ref={navItemsRef}
         className="relative items-center rounded-full flex"

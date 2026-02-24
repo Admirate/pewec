@@ -15,6 +15,7 @@
 ### Task 1: Add Supabase temp files to .gitignore
 
 **Files:**
+
 - Modify: `.gitignore`
 
 **Step 1: Add supabase local dev entries to .gitignore**
@@ -67,6 +68,7 @@ but commit <branch> -c -m "chore: initialize supabase project config" --changes 
 ### Task 3: Create database migration
 
 **Files:**
+
 - Create: `supabase/migrations/<timestamp>_create_contacts_and_enquiries.sql`
 
 **Step 1: Generate a migration file**
@@ -125,6 +127,7 @@ supabase start
 ```
 
 This spins up Postgres, Auth, Storage, Studio via Docker. Takes 1-2 minutes on first run. The output will display connection info including:
+
 - `API URL`: should be `http://127.0.0.1:54321`
 - `anon key`: local dev anon key
 - `service_role key`: the key we need
@@ -158,6 +161,7 @@ Open Supabase Studio at `http://127.0.0.1:54323` and confirm both `contacts` and
 ### Task 5: Update TypeScript types in constants.ts
 
 **Files:**
+
 - Modify: `lib/constants.ts` (lines 26-48)
 
 **Step 1: Replace old types with new types**
@@ -206,6 +210,7 @@ but commit <branch> -c -m "refactor: replace CourseEnquiry/ContactEnquiry types 
 ### Task 6: Create the /api/enquiries route
 
 **Files:**
+
 - Create: `app/api/enquiries/route.ts`
 
 **Step 1: Create the API route**
@@ -225,8 +230,11 @@ export async function POST(req: Request) {
 
     if (!first_name || !last_name || !email || !phone || !enquiry_type) {
       return NextResponse.json(
-        { success: false, error: "Missing required fields: first_name, last_name, email, phone, enquiry_type" },
-        { status: 400 }
+        {
+          success: false,
+          error: "Missing required fields: first_name, last_name, email, phone, enquiry_type",
+        },
+        { status: 400 },
       );
     }
 
@@ -234,7 +242,7 @@ export async function POST(req: Request) {
     if (!validTypes.includes(enquiry_type)) {
       return NextResponse.json(
         { success: false, error: `Invalid enquiry_type. Must be one of: ${validTypes.join(", ")}` },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -244,13 +252,13 @@ export async function POST(req: Request) {
       if (!course_length || !course_name) {
         return NextResponse.json(
           { success: false, error: "Course enquiries require course_length and course_name" },
-          { status: 400 }
+          { status: 400 },
         );
       }
       if (!["long_term", "short_term"].includes(course_length)) {
         return NextResponse.json(
           { success: false, error: "course_length must be 'long_term' or 'short_term'" },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -260,10 +268,7 @@ export async function POST(req: Request) {
     // Upsert contact by email
     const { data: contact, error: contactError } = await supabase
       .from("contacts")
-      .upsert(
-        { first_name, last_name, email },
-        { onConflict: "email" }
-      )
+      .upsert({ first_name, last_name, email }, { onConflict: "email" })
       .select("id")
       .single();
 
@@ -271,27 +276,25 @@ export async function POST(req: Request) {
       console.error("Contact upsert error:", contactError);
       return NextResponse.json(
         { success: false, error: "Failed to create contact" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     // Insert enquiry
-    const { error: enquiryError } = await supabase
-      .from("enquiries")
-      .insert({
-        contact_id: contact.id,
-        enquiry_type,
-        enquiry_details: message || null,
-        phone,
-        course_length: enquiry_type === "course" ? course_length : null,
-        course_name: enquiry_type === "course" ? course_name : null,
-      });
+    const { error: enquiryError } = await supabase.from("enquiries").insert({
+      contact_id: contact.id,
+      enquiry_type,
+      enquiry_details: message || null,
+      phone,
+      course_length: enquiry_type === "course" ? course_length : null,
+      course_name: enquiry_type === "course" ? course_name : null,
+    });
 
     if (enquiryError) {
       console.error("Enquiry insert error:", enquiryError);
       return NextResponse.json(
         { success: false, error: "Failed to create enquiry" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -301,10 +304,7 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Unexpected error:", error);
-    return NextResponse.json(
-      { success: false, error: "Something went wrong" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: "Something went wrong" }, { status: 500 });
   }
 }
 ```
@@ -328,6 +328,7 @@ but commit <branch> -c -m "feat: add POST /api/enquiries route with contact upse
 ### Task 7: Delete old stub API routes
 
 **Files:**
+
 - Delete: `app/api/course-enquiry/route.ts`
 - Delete: `app/api/contact-enquiry/route.ts`
 
@@ -357,6 +358,7 @@ but commit <branch> -c -m "chore: remove old stub API routes (course-enquiry, co
 ### Task 8: Update CourseEnquiryForm to use new schema and endpoint
 
 **Files:**
+
 - Modify: `components/CourseEnquiryForm.tsx`
 
 **Step 1: Update form state**
@@ -364,15 +366,15 @@ but commit <branch> -c -m "chore: remove old stub API routes (course-enquiry, co
 Replace the form state initialization (line 17-24):
 
 ```typescript
-  const [form, setForm] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-    course_length: "" as "long_term" | "short_term" | "",
-    course_name: "",
-    message: "",
-  });
+const [form, setForm] = useState({
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  course_length: "" as "long_term" | "short_term" | "",
+  course_name: "",
+  message: "",
+});
 ```
 
 **Step 2: Update handleChange**
@@ -380,17 +382,17 @@ Replace the form state initialization (line 17-24):
 Replace the `handleChange` function (lines 26-36) to use `course_length` instead of `course_type`:
 
 ```typescript
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) => {
-    const { name, value } = e.target;
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+) => {
+  const { name, value } = e.target;
 
-    if (name === "course_length") {
-      setForm({ ...form, course_length: value as "long_term" | "short_term" | "", course_name: "" });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
-  };
+  if (name === "course_length") {
+    setForm({ ...form, course_length: value as "long_term" | "short_term" | "", course_name: "" });
+  } else {
+    setForm({ ...form, [name]: value });
+  }
+};
 ```
 
 **Step 3: Update validate function**
@@ -398,38 +400,45 @@ Replace the `handleChange` function (lines 26-36) to use `course_length` instead
 Replace the validate function (lines 38-63):
 
 ```typescript
-  const validate = () => {
-    if (!form.first_name || !form.last_name || !form.email || !form.phone || !form.course_length || !form.course_name) {
-      setError("Please fill all required fields");
-      return false;
-    }
+const validate = () => {
+  if (
+    !form.first_name ||
+    !form.last_name ||
+    !form.email ||
+    !form.phone ||
+    !form.course_length ||
+    !form.course_name
+  ) {
+    setError("Please fill all required fields");
+    return false;
+  }
 
-    const nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+  const nameRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
 
-    if (!nameRegex.test(form.first_name.trim())) {
-      setError("First name should contain only alphabets");
-      return false;
-    }
+  if (!nameRegex.test(form.first_name.trim())) {
+    setError("First name should contain only alphabets");
+    return false;
+  }
 
-    if (!nameRegex.test(form.last_name.trim())) {
-      setError("Last name should contain only alphabets");
-      return false;
-    }
+  if (!nameRegex.test(form.last_name.trim())) {
+    setError("Last name should contain only alphabets");
+    return false;
+  }
 
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    if (!emailRegex.test(form.email)) {
-      setError("Enter valid email");
-      return false;
-    }
+  const emailRegex = /^\S+@\S+\.\S+$/;
+  if (!emailRegex.test(form.email)) {
+    setError("Enter valid email");
+    return false;
+  }
 
-    const phoneRegex = /^[0-9]{10}$/;
-    if (!phoneRegex.test(form.phone)) {
-      setError("Phone number must be exactly 10 digits");
-      return false;
-    }
+  const phoneRegex = /^[0-9]{10}$/;
+  if (!phoneRegex.test(form.phone)) {
+    setError("Phone number must be exactly 10 digits");
+    return false;
+  }
 
-    return true;
-  };
+  return true;
+};
 ```
 
 **Step 4: Update handleSubmit**
@@ -437,30 +446,30 @@ Replace the validate function (lines 38-63):
 Change the fetch URL (line 75) and add `enquiry_type` to payload:
 
 ```typescript
-      const res = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...form,
-          enquiry_type: "course",
-        }),
-      });
+const res = await fetch("/api/enquiries", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    ...form,
+    enquiry_type: "course",
+  }),
+});
 ```
 
 Update the form reset (lines 86-93) to match new field names:
 
 ```typescript
-      setForm({
-        first_name: "",
-        last_name: "",
-        email: "",
-        phone: "",
-        course_length: "",
-        course_name: "",
-        message: "",
-      });
+setForm({
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  course_length: "",
+  course_name: "",
+  message: "",
+});
 ```
 
 **Step 5: Update availableCourses to use course_length**
@@ -468,7 +477,8 @@ Update the form reset (lines 86-93) to match new field names:
 Replace line 101-105:
 
 ```typescript
-  const availableCourses = form.course_length === "long_term"
+const availableCourses =
+  form.course_length === "long_term"
     ? LONG_TERM_COURSES
     : form.course_length === "short_term"
       ? SHORT_TERM_COURSES
@@ -480,57 +490,59 @@ Replace line 101-105:
 Replace the Full Name input (lines 131-146) with First Name + Last Name side by side:
 
 ```tsx
-        {/* NAME FIELDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          <div>
-            <label className="block text-gray-600 text-sm mb-1">First Name *</label>
-            <input
-              name="first_name"
-              type="text"
-              placeholder="First name"
-              value={form.first_name}
-              onChange={(e) => {
-                let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-                value = value.replace(/\s{2,}/g, " ");
-                setForm({ ...form, first_name: value });
-              }}
-              className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-600 text-sm mb-1">Last Name *</label>
-            <input
-              name="last_name"
-              type="text"
-              placeholder="Last name"
-              value={form.last_name}
-              onChange={(e) => {
-                let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-                value = value.replace(/\s{2,}/g, " ");
-                setForm({ ...form, last_name: value });
-              }}
-              className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
-            />
-          </div>
-        </div>
+{
+  /* NAME FIELDS */
+}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+  <div>
+    <label className="block text-gray-600 text-sm mb-1">First Name *</label>
+    <input
+      name="first_name"
+      type="text"
+      placeholder="First name"
+      value={form.first_name}
+      onChange={(e) => {
+        let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+        value = value.replace(/\s{2,}/g, " ");
+        setForm({ ...form, first_name: value });
+      }}
+      className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+    />
+  </div>
+  <div>
+    <label className="block text-gray-600 text-sm mb-1">Last Name *</label>
+    <input
+      name="last_name"
+      type="text"
+      placeholder="Last name"
+      value={form.last_name}
+      onChange={(e) => {
+        let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+        value = value.replace(/\s{2,}/g, " ");
+        setForm({ ...form, last_name: value });
+      }}
+      className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+    />
+  </div>
+</div>;
 ```
 
 Update the Course Type select (lines 178-191) — change `name` and `value` from `course_type` to `course_length`:
 
 ```tsx
-        <div>
-          <label className="block text-gray-600 text-sm mb-1">Course Type *</label>
-          <select
-            name="course_length"
-            value={form.course_length}
-            onChange={handleChange}
-            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent cursor-pointer"
-          >
-            <option value="">Select course type</option>
-            <option value="long_term">Long Term Course</option>
-            <option value="short_term">Short Term Course</option>
-          </select>
-        </div>
+<div>
+  <label className="block text-gray-600 text-sm mb-1">Course Type *</label>
+  <select
+    name="course_length"
+    value={form.course_length}
+    onChange={handleChange}
+    className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent cursor-pointer"
+  >
+    <option value="">Select course type</option>
+    <option value="long_term">Long Term Course</option>
+    <option value="short_term">Short Term Course</option>
+  </select>
+</div>
 ```
 
 Update the Course Name select disabled check (line 200) and empty text (line 206) — change `course_type` to `course_length`:
@@ -565,6 +577,7 @@ but commit <branch> -c -m "feat: update CourseEnquiryForm with first/last name f
 ### Task 9: Update EnquiryForm to use new endpoint
 
 **Files:**
+
 - Modify: `components/EnquiryForm.tsx` (line 76)
 
 **Step 1: Change the fetch URL**
@@ -640,6 +653,7 @@ Navigate to the page that triggers the course enquiry modal (any course page wit
 **Step 2: Submit a course enquiry**
 
 Fill in:
+
 - First Name: `Test`
 - Last Name: `User`
 - Email: `test@example.com`
@@ -673,6 +687,7 @@ Go to `http://localhost:3000/contact`.
 **Step 2: Submit a contact enquiry**
 
 Fill in:
+
 - First Name: `Test`
 - Last Name: `User`
 - Email: `test@example.com` (same email — should reuse the contact)
@@ -695,6 +710,7 @@ Check `enquiries` table: should now have TWO rows — one course enquiry and one
 **Step 1: Submit with same email, different name**
 
 Submit a course enquiry with:
+
 - First Name: `Updated`
 - Last Name: `Name`
 - Email: `test@example.com`

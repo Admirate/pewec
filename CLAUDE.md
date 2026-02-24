@@ -29,6 +29,7 @@ No test suite is configured.
 **Global Enquiry Modal:** `GlobalEnquiryModal` wraps the entire app in `app/layout.tsx` and provides a React Context (`EnquiryContext`). Any page/component can call `useEnquiryModal().openModal()` to open the course enquiry modal from anywhere.
 
 **Supabase:** Two clients in `lib/supabase.ts`:
+
 - `supabase` — browser client using `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `getSupabaseAdmin()` — server-only client using `SUPABASE_SERVICE_ROLE_KEY` (throws if not set)
 

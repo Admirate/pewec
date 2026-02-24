@@ -72,7 +72,9 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className={`${mulish.className} min-h-screen bg-gray-100 flex items-center justify-center p-4`}>
+    <div
+      className={`${mulish.className} min-h-screen bg-gray-100 flex items-center justify-center p-4`}
+    >
       <div className="w-full max-w-md">
         {/* Logo Card */}
         <div className="bg-white rounded-2xl shadow-lg p-8">
@@ -95,18 +97,14 @@ export default function AdminLoginPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 text-sm">
-              {error}
-            </div>
+            <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 text-sm">{error}</div>
           )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <div className="relative">
                 <Mail
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -125,9 +123,7 @@ export default function AdminLoginPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
               <div className="relative">
                 <Lock
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -164,8 +160,10 @@ export default function AdminLoginPage() {
           {/* Demo Credentials Note */}
           <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
             <p className="text-yellow-800 text-sm">
-              <strong>Demo Credentials:</strong><br />
-              Email: admin@pewec.com<br />
+              <strong>Demo Credentials:</strong>
+              <br />
+              Email: admin@pewec.com
+              <br />
               Password: admin123
             </p>
             <p className="text-yellow-600 text-xs mt-2">
@@ -176,10 +174,7 @@ export default function AdminLoginPage() {
 
         {/* Back to Website Link */}
         <div className="text-center mt-6">
-          <a
-            href="/"
-            className="text-gray-500 hover:text-[#c44944] transition-colors"
-          >
+          <a href="/" className="text-gray-500 hover:text-[#c44944] transition-colors">
             ← Back to Website
           </a>
         </div>

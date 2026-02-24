@@ -92,9 +92,7 @@ export default function Navbar() {
                     className={cn(
                       mulish.className,
                       "text-base sm:text-lg font-semibold transition",
-                      isActive(item.href)
-                        ? "text-[#c44944]"
-                        : "text-gray-700 hover:text-[#c44944]",
+                      isActive(item.href) ? "text-[#c44944]" : "text-gray-700 hover:text-[#c44944]",
                     )}
                   >
                     {item.name}

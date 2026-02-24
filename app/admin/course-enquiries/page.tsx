@@ -8,7 +8,7 @@ import type { Enquiry } from "@/lib/constants";
 // 1. Create a function to fetch all course_enquiries from Supabase
 // 2. Use getSupabaseAdmin() from '@/lib/supabase' in an API route
 // 3. Or create a server component to fetch directly
-// 
+//
 // Example API route to create: /api/admin/course-enquiries
 // It should return: { data: Enquiry[], error: string | null }
 
@@ -50,8 +50,7 @@ export default function CourseEnquiriesPage() {
       item.phone?.includes(searchTerm) ||
       item.enquiry_details?.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesFilter =
-      filterType === "all" || item.course_length === filterType;
+    const matchesFilter = filterType === "all" || item.course_length === filterType;
 
     return matchesSearch && matchesFilter;
   });
@@ -71,12 +70,8 @@ export default function CourseEnquiriesPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-            Course Enquiries
-          </h2>
-          <p className="text-gray-500 mt-1">
-            Manage all course enquiry submissions
-          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Course Enquiries</h2>
+          <p className="text-gray-500 mt-1">Manage all course enquiry submissions</p>
         </div>
         <div className="flex gap-2">
           <button
@@ -101,10 +96,7 @@ export default function CourseEnquiriesPage() {
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search */}
           <div className="flex-1 relative">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={20}
-            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
               placeholder="Search by name, email, phone, or course..."
@@ -174,7 +166,10 @@ export default function CourseEnquiriesPage() {
                 </tr>
               ) : (
                 filteredData.map((enquiry) => (
-                  <tr key={enquiry.id} className={`hover:bg-gray-50 ${!enquiry.is_read ? 'bg-blue-50' : ''}`}>
+                  <tr
+                    key={enquiry.id}
+                    className={`hover:bg-gray-50 ${!enquiry.is_read ? "bg-blue-50" : ""}`}
+                  >
                     <td className="px-4 py-4">
                       <div className="font-medium text-gray-800">{enquiry.contact_id}</div>
                     </td>
@@ -237,9 +232,7 @@ export default function CourseEnquiriesPage() {
         {/* Pagination placeholder */}
         {filteredData.length > 0 && (
           <div className="px-4 py-3 border-t border-gray-200 flex items-center justify-between">
-            <p className="text-sm text-gray-500">
-              Showing {filteredData.length} results
-            </p>
+            <p className="text-sm text-gray-500">Showing {filteredData.length} results</p>
             {/* TODO: Backend - Add pagination */}
           </div>
         )}

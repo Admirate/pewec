@@ -66,9 +66,7 @@ export default function SuccessConfirmation({
         {message}
       </h3>
 
-      <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-8">
-        {subtitle}
-      </p>
+      <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-8">{subtitle}</p>
 
       <button
         onClick={onClose}

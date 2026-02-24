@@ -53,9 +53,8 @@ export default function CoursesPage() {
             transition={{ delay: 0.6, duration: 0.9 }}
             className={`${mulish.className} text-white mt-2 sm:mt-3 max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl`}
           >
-            All courses are listed on this single page. Courses are divided into
-            long term and short term programs. Each course has an enquiry
-            option.
+            All courses are listed on this single page. Courses are divided into long term and short
+            term programs. Each course has an enquiry option.
           </motion.p>
         </div>
       </section>
@@ -76,8 +75,7 @@ export default function CoursesPage() {
           <p
             className={`${poppins.className} text-gray-600 mt-4 sm:mt-6 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl`}
           >
-            These courses focus on academic education and professional
-            preparation.
+            These courses focus on academic education and professional preparation.
           </p>
 
           {/* divider */}
@@ -164,8 +162,8 @@ export default function CoursesPage() {
               viewport={{ once: true }}
               className={`${mulish.className} text-white mt-2 sm:mt-3 text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl`}
             >
-              Training in beauty and grooming skills such as skincare, makeup,
-              and hair styling. Suitable for salon work or personal services.
+              Training in beauty and grooming skills such as skincare, makeup, and hair styling.
+              Suitable for salon work or personal services.
             </motion.p>
 
             {/* Button */}

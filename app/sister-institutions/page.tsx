@@ -93,9 +93,9 @@ export default function Home() {
             <p
               className={`${poppins.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
             >
-              PEWEC is part of institutions managed under the Nizamia Hyderabad
-              Women's Association Trust. These institutions work together to
-              support women through education and training.
+              PEWEC is part of institutions managed under the Nizamia Hyderabad Women's Association
+              Trust. These institutions work together to support women through education and
+              training.
             </p>
           </motion.div>
         </div>

@@ -96,16 +96,16 @@ export default function Home() {
             <p
               className={`${poppins.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
             >
-              Princess Esin Women's Educational Centre is a place where women
-              learn, grow, and gain confidence. We focus on education and skills
-              that are useful in daily life and help women stand on their own.
+              Princess Esin Women's Educational Centre is a place where women learn, grow, and gain
+              confidence. We focus on education and skills that are useful in daily life and help
+              women stand on their own.
             </p>
 
             <p
               className={`${poppins.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed mt-3 sm:mt-4`}
             >
-              Our aim is to support women from all backgrounds with learning
-              that is simple, affordable, and meaningful.
+              Our aim is to support women from all backgrounds with learning that is simple,
+              affordable, and meaningful.
             </p>
 
             <motion.div

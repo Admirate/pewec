@@ -35,14 +35,25 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
     const { name, value } = e.target;
 
     if (name === "course_length") {
-      setForm({ ...form, course_length: value as "long_term" | "short_term" | "", course_name: "" });
+      setForm({
+        ...form,
+        course_length: value as "long_term" | "short_term" | "",
+        course_name: "",
+      });
     } else {
       setForm({ ...form, [name]: value });
     }
   };
 
   const validate = () => {
-    if (!form.first_name || !form.last_name || !form.email || !form.phone || !form.course_length || !form.course_name) {
+    if (
+      !form.first_name ||
+      !form.last_name ||
+      !form.email ||
+      !form.phone ||
+      !form.course_length ||
+      !form.course_name
+    ) {
       setError("Please fill all required fields");
       return false;
     }
@@ -120,11 +131,12 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
     }
   };
 
-  const availableCourses = form.course_length === "long_term"
-    ? LONG_TERM_COURSES
-    : form.course_length === "short_term"
-      ? SHORT_TERM_COURSES
-      : [];
+  const availableCourses =
+    form.course_length === "long_term"
+      ? LONG_TERM_COURSES
+      : form.course_length === "short_term"
+        ? SHORT_TERM_COURSES
+        : [];
 
   return (
     <div className="w-full max-w-3xl mx-auto bg-white p-4 sm:p-6 md:p-8 lg:p-12 rounded-2xl sm:rounded-3xl shadow-lg">
@@ -139,151 +151,151 @@ export default function CourseEnquiryForm({ onSuccess }: CourseEnquiryFormProps)
           }}
         />
       ) : (
-      <>
-      <h2
-        className={`${mulish.className} text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 sm:mb-6 text-[#c44944]`}
-      >
-        Course Enquiry Form
-      </h2>
-
-      {/* ERROR */}
-      {error && (
-        <div className="bg-red-100 text-red-700 p-2 sm:p-3 rounded mb-3 sm:mb-4 text-sm sm:text-base">
-          {error}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
-        {/* NAME FIELDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          <div>
-            <label className="block text-gray-600 text-sm mb-1">First Name *</label>
-            <input
-              name="first_name"
-              type="text"
-              placeholder="First name"
-              value={form.first_name}
-              onChange={(e) => {
-                let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-                value = value.replace(/\s{2,}/g, " ");
-                setForm({ ...form, first_name: value });
-              }}
-              className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-600 text-sm mb-1">Last Name *</label>
-            <input
-              name="last_name"
-              type="text"
-              placeholder="Last name"
-              value={form.last_name}
-              onChange={(e) => {
-                let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-                value = value.replace(/\s{2,}/g, " ");
-                setForm({ ...form, last_name: value });
-              }}
-              className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
-            />
-          </div>
-        </div>
-
-        {/* EMAIL */}
-        <div>
-          <label className="block text-gray-600 text-sm mb-1">Email *</label>
-          <input
-            name="email"
-            type="email"
-            placeholder="Enter your email"
-            value={form.email}
-            onChange={handleChange}
-            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
-          />
-        </div>
-
-        {/* PHONE */}
-        <div>
-          <label className="block text-gray-600 text-sm mb-1">Phone *</label>
-          <input
-            name="phone"
-            type="tel"
-            placeholder="Enter 10-digit phone number"
-            value={form.phone}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, "");
-              setForm({ ...form, phone: value });
-            }}
-            maxLength={10}
-            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
-          />
-        </div>
-
-        {/* COURSE TYPE */}
-        <div>
-          <label className="block text-gray-600 text-sm mb-1">Course Type *</label>
-          <select
-            name="course_length"
-            value={form.course_length}
-            onChange={handleChange}
-            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent cursor-pointer"
+        <>
+          <h2
+            className={`${mulish.className} text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 sm:mb-6 text-[#c44944]`}
           >
-            <option value="">Select course type</option>
-            <option value="long_term">Long Term Course</option>
-            <option value="short_term">Short Term Course</option>
-          </select>
-        </div>
+            Course Enquiry Form
+          </h2>
 
-        {/* COURSE NAME */}
-        <div>
-          <label className="block text-gray-600 text-sm mb-1">Course Name *</label>
-          <select
-            name="course_name"
-            value={form.course_name}
-            onChange={handleChange}
-            disabled={!form.course_length}
-            className={`w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent ${
-              !form.course_length ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-            }`}
-          >
-            <option value="">
-              {form.course_length ? "Select a course" : "First select course type"}
-            </option>
-            {availableCourses.map((course) => (
-              <option key={course.id} value={course.name}>
-                {course.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          {/* ERROR */}
+          {error && (
+            <div className="bg-red-100 text-red-700 p-2 sm:p-3 rounded mb-3 sm:mb-4 text-sm sm:text-base">
+              {error}
+            </div>
+          )}
 
-        {/* MESSAGE */}
-        <div>
-          <label className="block text-gray-600 text-sm mb-1">Message (optional)</label>
-          <textarea
-            name="message"
-            placeholder="Any additional information..."
-            value={form.message}
-            onChange={handleChange}
-            className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 resize-none text-sm sm:text-base md:text-lg bg-transparent"
-            rows={3}
-          />
-        </div>
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
+            {/* NAME FIELDS */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div>
+                <label className="block text-gray-600 text-sm mb-1">First Name *</label>
+                <input
+                  name="first_name"
+                  type="text"
+                  placeholder="First name"
+                  value={form.first_name}
+                  onChange={(e) => {
+                    let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+                    value = value.replace(/\s{2,}/g, " ");
+                    setForm({ ...form, first_name: value });
+                  }}
+                  className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-600 text-sm mb-1">Last Name *</label>
+                <input
+                  name="last_name"
+                  type="text"
+                  placeholder="Last name"
+                  value={form.last_name}
+                  onChange={(e) => {
+                    let value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+                    value = value.replace(/\s{2,}/g, " ");
+                    setForm({ ...form, last_name: value });
+                  }}
+                  className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+                />
+              </div>
+            </div>
 
-        {/* BUTTON */}
-        <button
-          type="submit"
-          disabled={loading}
-          className={`${mulish.className}
+            {/* EMAIL */}
+            <div>
+              <label className="block text-gray-600 text-sm mb-1">Email *</label>
+              <input
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+              />
+            </div>
+
+            {/* PHONE */}
+            <div>
+              <label className="block text-gray-600 text-sm mb-1">Phone *</label>
+              <input
+                name="phone"
+                type="tel"
+                placeholder="Enter 10-digit phone number"
+                value={form.phone}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, "");
+                  setForm({ ...form, phone: value });
+                }}
+                maxLength={10}
+                className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent"
+              />
+            </div>
+
+            {/* COURSE TYPE */}
+            <div>
+              <label className="block text-gray-600 text-sm mb-1">Course Type *</label>
+              <select
+                name="course_length"
+                value={form.course_length}
+                onChange={handleChange}
+                className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent cursor-pointer"
+              >
+                <option value="">Select course type</option>
+                <option value="long_term">Long Term Course</option>
+                <option value="short_term">Short Term Course</option>
+              </select>
+            </div>
+
+            {/* COURSE NAME */}
+            <div>
+              <label className="block text-gray-600 text-sm mb-1">Course Name *</label>
+              <select
+                name="course_name"
+                value={form.course_name}
+                onChange={handleChange}
+                disabled={!form.course_length}
+                className={`w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 text-sm sm:text-base md:text-lg bg-transparent ${
+                  !form.course_length ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                }`}
+              >
+                <option value="">
+                  {form.course_length ? "Select a course" : "First select course type"}
+                </option>
+                {availableCourses.map((course) => (
+                  <option key={course.id} value={course.name}>
+                    {course.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* MESSAGE */}
+            <div>
+              <label className="block text-gray-600 text-sm mb-1">Message (optional)</label>
+              <textarea
+                name="message"
+                placeholder="Any additional information..."
+                value={form.message}
+                onChange={handleChange}
+                className="w-full border-b-2 border-gray-400 focus:border-[#006457] outline-none py-2 sm:py-3 resize-none text-sm sm:text-base md:text-lg bg-transparent"
+                rows={3}
+              />
+            </div>
+
+            {/* BUTTON */}
+            <button
+              type="submit"
+              disabled={loading}
+              className={`${mulish.className}
             bg-[#006457] hover:bg-[#05443c]
             text-white font-semibold
             px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-4 rounded-full
             text-sm sm:text-base md:text-lg lg:text-xl
             transition w-full md:w-fit disabled:opacity-50`}
-        >
-          {loading ? "Submitting..." : "Submit Enquiry"}
-        </button>
-      </form>
-      </>
+            >
+              {loading ? "Submitting..." : "Submit Enquiry"}
+            </button>
+          </form>
+        </>
       )}
     </div>
   );

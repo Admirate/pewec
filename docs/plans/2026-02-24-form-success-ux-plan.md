@@ -13,6 +13,7 @@
 ### Task 1: Create SuccessConfirmation Component
 
 **Files:**
+
 - Create: `components/SuccessConfirmation.tsx`
 
 **Step 1: Create the component file**
@@ -81,9 +82,7 @@ export default function SuccessConfirmation({
         {message}
       </h3>
 
-      <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-8">
-        {subtitle}
-      </p>
+      <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-8">{subtitle}</p>
 
       <button
         onClick={onClose}
@@ -121,6 +120,7 @@ but commit -m "feat: add SuccessConfirmation component with auto-close and progr
 ### Task 2: Integrate SuccessConfirmation into CourseEnquiryForm
 
 **Files:**
+
 - Modify: `components/CourseEnquiryForm.tsx`
 
 **Step 1: Add submitted state, onSuccess prop, and import SuccessConfirmation**
@@ -249,6 +249,7 @@ but commit -m "feat: replace CourseEnquiryForm success banner with SuccessConfir
 ### Task 3: Wire GlobalEnquiryModal to close on success
 
 **Files:**
+
 - Modify: `components/GlobalEnquiryModal.tsx`
 
 **Step 1: Pass onSuccess prop to CourseEnquiryForm**
@@ -283,6 +284,7 @@ but commit -m "feat: close enquiry modal on successful submission via onSuccess 
 ### Task 4: Integrate SuccessConfirmation into EnquiryForm
 
 **Files:**
+
 - Modify: `components/EnquiryForm.tsx`
 
 **Step 1: Add import, submitted state, and onSuccess prop**
@@ -453,10 +455,10 @@ but commit -m "fix: address issues found during smoke testing"
 
 ## Summary
 
-| Task | Files | What |
-|------|-------|------|
-| 1 | Create `SuccessConfirmation.tsx` | Animated checkmark + message + auto-close progress bar |
-| 2 | Modify `CourseEnquiryForm.tsx` | Replace success banner with SuccessConfirmation, improve error messages |
-| 3 | Modify `GlobalEnquiryModal.tsx` | Pass `onSuccess={closeModal}` to CourseEnquiryForm |
-| 4 | Modify `EnquiryForm.tsx` | Same treatment as CourseEnquiryForm |
-| 5 | None | Visual smoke test of both flows + build verification |
+| Task | Files                            | What                                                                    |
+| ---- | -------------------------------- | ----------------------------------------------------------------------- |
+| 1    | Create `SuccessConfirmation.tsx` | Animated checkmark + message + auto-close progress bar                  |
+| 2    | Modify `CourseEnquiryForm.tsx`   | Replace success banner with SuccessConfirmation, improve error messages |
+| 3    | Modify `GlobalEnquiryModal.tsx`  | Pass `onSuccess={closeModal}` to CourseEnquiryForm                      |
+| 4    | Modify `EnquiryForm.tsx`         | Same treatment as CourseEnquiryForm                                     |
+| 5    | None                             | Visual smoke test of both flows + build verification                    |
