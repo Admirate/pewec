@@ -33,7 +33,7 @@ No test suite is configured.
 - `supabase` — browser client using `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `getSupabaseAdmin()` — server-only client using `SUPABASE_SERVICE_ROLE_KEY` (throws if not set)
 
-**Types & Constants:** `lib/constants.ts` exports the two DB table types (`CourseEnquiry`, `ContactEnquiry`), course lists, and enquiry type options. These are re-exported from `lib/supabase.ts`.
+**Types & Constants:** `lib/constants.ts` exports the unified DB table types (`Contact`, `Enquiry`), course lists, and enquiry type options. These are re-exported from `lib/supabase.ts`.
 
 **PillNav:** Custom animated desktop nav (`components/PillNav.tsx`) using GSAP for hover animations. Used in the public `Navbar` with active-route detection via `usePathname`.
 
