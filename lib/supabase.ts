@@ -9,8 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Cookie-based browser client for admin — session is stored in cookies so
 // the middleware can verify it server-side. Use this in all admin client components.
-export const createAdminBrowserClient = () =>
-  createBrowserClient(supabaseUrl, supabaseAnonKey);
+export const createAdminBrowserClient = () => createBrowserClient(supabaseUrl, supabaseAnonKey);
 
 // Server-side Supabase client (for API routes - has full access)
 // Only create if service role key is available (server-side only)
