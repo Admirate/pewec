@@ -105,7 +105,7 @@ export default async function ContactDetailPage({ params }: { params: Promise<{ 
               <Field icon={Phone} label="Phone" value={phone ?? "Not provided"} />
               <Field
                 icon={Calendar}
-                label="Member Since"
+                label="Created On"
                 value={formatDateDesktop(contact.created_at)}
               />
             </div>
