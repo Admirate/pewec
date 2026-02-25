@@ -4,15 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Mulish } from "next/font/google";
-import {
-  LayoutDashboard,
-  GraduationCap,
-  MessageSquare,
-  BookOpen,
-  LogOut,
-  Menu,
-  X,
-} from "lucide-react";
+import { LayoutDashboard, Users, MessageSquare, BookOpen, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { createAdminBrowserClient } from "@/lib/supabase";
 
@@ -28,13 +20,13 @@ const sidebarLinks = [
     icon: LayoutDashboard,
   },
   {
-    name: "Course Enquiries",
-    href: "/admin/course-enquiries",
-    icon: GraduationCap,
+    name: "Contacts",
+    href: "/admin/contacts",
+    icon: Users,
   },
   {
-    name: "Contact Enquiries",
-    href: "/admin/contact-enquiries",
+    name: "Enquiries",
+    href: "/admin/enquiries",
     icon: MessageSquare,
   },
   {
@@ -53,6 +45,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (href === "/admin") return pathname === "/admin";
     return pathname.startsWith(href);
   };
+
+  const pageTitle = (() => {
+    if (pathname === "/admin") return "Dashboard";
+    if (pathname.startsWith("/admin/contacts/") && pathname !== "/admin/contacts") return "Contact";
+    const match = sidebarLinks.find((l) => l.href !== "/admin" && pathname.startsWith(l.href));
+    return match?.name ?? "Admin";
+  })();
 
   const handleLogout = async () => {
     const supabase = createAdminBrowserClient();
@@ -154,7 +153,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               <Menu size={24} />
             </button>
-            <h1 className="text-lg sm:text-xl font-semibold text-gray-800">Admin Dashboard</h1>
+            <h1 className="text-base sm:text-lg font-semibold text-gray-800">{pageTitle}</h1>
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500 hidden sm:block">Welcome, Admin</span>
               <div className="w-8 h-8 bg-[#c44944] rounded-full flex items-center justify-center text-white font-semibold">

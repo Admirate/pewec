@@ -3,6 +3,17 @@
 import { useState, useEffect, useCallback } from "react";
 import { Plus, Pencil, RefreshCw, ToggleLeft, ToggleRight } from "lucide-react";
 import type { Course } from "@/lib/constants";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -304,63 +315,71 @@ export default function AdminCoursesPage() {
             )}
 
             {/* Name */}
-            <div>
-              <label className="block text-sm text-gray-600 mb-1">Name *</label>
-              <input
-                type="text"
+            <div className="space-y-1">
+              <Label htmlFor="course-name">Name *</Label>
+              <Input
+                id="course-name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#006457]"
                 placeholder="e.g. Teacher Training"
               />
             </div>
 
             {/* Type */}
-            <div>
-              <label className="block text-sm text-gray-600 mb-1">Type *</label>
-              <select
+            <div className="space-y-1">
+              <Label htmlFor="course-type">Type *</Label>
+              <Select
                 value={formData.type}
-                onChange={(e) =>
-                  setFormData({ ...formData, type: e.target.value as "long_term" | "short_term" })
+                onValueChange={(value) =>
+                  setFormData({ ...formData, type: value as "long_term" | "short_term" })
                 }
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#006457]"
               >
-                <option value="long_term">Long Term</option>
-                <option value="short_term">Short Term</option>
-              </select>
+                <SelectTrigger id="course-type" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="long_term">Long Term</SelectItem>
+                  <SelectItem value="short_term">Short Term</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Rep Email */}
-            <div>
-              <label className="block text-sm text-gray-600 mb-1">Rep Email *</label>
-              <input
+            <div className="space-y-1">
+              <Label htmlFor="course-rep-email">Rep Email *</Label>
+              <Input
+                id="course-rep-email"
                 type="email"
                 value={formData.rep_email}
                 onChange={(e) => setFormData({ ...formData, rep_email: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#006457]"
                 placeholder="rep@pewec.com"
               />
             </div>
 
             {/* Description */}
-            <div>
-              <label className="block text-sm text-gray-600 mb-1">Description</label>
-              <textarea
+            <div className="space-y-1">
+              <Label htmlFor="course-description">Description</Label>
+              <Textarea
+                id="course-description"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#006457] resize-none"
                 rows={3}
                 placeholder="Brief description of the course..."
               />
             </div>
 
             {/* Active toggle */}
-            <div className="flex items-center gap-3">
-              <label className="text-sm text-gray-600">Active</label>
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label>Active</Label>
+                <p className="text-xs text-muted-foreground">
+                  {formData.is_active ? "Visible in enquiry form" : "Hidden from enquiry form"}
+                </p>
+              </div>
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, is_active: !formData.is_active })}
-                className={`relative w-10 h-6 rounded-full transition-colors ${
+                className={`relative w-10 h-6 rounded-full transition-colors shrink-0 ${
                   formData.is_active ? "bg-[#006457]" : "bg-gray-300"
                 }`}
               >
@@ -370,26 +389,20 @@ export default function AdminCoursesPage() {
                   }`}
                 />
               </button>
-              <span className="text-sm text-gray-500">
-                {formData.is_active ? "Visible in enquiry form" : "Hidden from enquiry form"}
-              </span>
             </div>
 
             {/* Actions */}
             <div className="flex justify-end gap-3 pt-2">
-              <button
-                onClick={closeModal}
-                className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-              >
+              <Button variant="outline" onClick={closeModal}>
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-5 py-2 rounded-lg bg-[#006457] text-white hover:bg-[#005347] transition-colors disabled:opacity-50"
+                className="bg-[#006457] hover:bg-[#005347] text-white"
               >
                 {saving ? "Saving..." : editingCourse ? "Save Changes" : "Create Course"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
