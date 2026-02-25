@@ -1,80 +1,49 @@
 import { getSupabaseAdmin } from "@/lib/supabase";
-import { Users, MessageSquare, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import type { Contact } from "@/lib/constants";
+import Pagination from "@/app/admin/components/Pagination";
 import { formatDateMobile, formatDateDesktop } from "@/components/admin/DateDisplay";
 
-export default async function AdminDashboard() {
+const PAGE_SIZE = 10;
+
+export default async function ContactsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { page: pageParam } = await searchParams;
+  const page = Math.max(1, parseInt(pageParam ?? "1") || 1);
+  const from = (page - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+
   const supabase = getSupabaseAdmin();
 
-  const [{ count: contactCount }, { count: enquiryCount }, { data: contacts }] = await Promise.all([
-    supabase.from("contacts").select("*", { count: "exact", head: true }),
-    supabase.from("enquiries").select("*", { count: "exact", head: true }),
-    supabase
-      .from("contacts")
-      .select("id, first_name, last_name, email, created_at")
-      .order("created_at", { ascending: false })
-      .limit(10),
-  ]);
+  const {
+    data: contacts,
+    count: totalCount,
+    error,
+  } = await supabase
+    .from("contacts")
+    .select("id, first_name, last_name, email, created_at", { count: "exact" })
+    .order("created_at", { ascending: false })
+    .range(from, to);
 
-  const statCards = [
-    {
-      title: "Total Contacts",
-      value: contactCount ?? 0,
-      icon: Users,
-      color: "bg-[#006457]",
-      href: "/admin/contacts",
-    },
-    {
-      title: "Total Enquiries",
-      value: enquiryCount ?? 0,
-      icon: MessageSquare,
-      color: "bg-[#c44944]",
-      href: "/admin/enquiries",
-    },
-  ];
+  const totalPages = Math.ceil((totalCount ?? 0) / PAGE_SIZE);
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-800">Dashboard</h2>
-        <p className="text-gray-500 mt-1 text-sm">Welcome to PEWEC Admin Panel.</p>
+        <h2 className="text-2xl font-bold text-gray-800">Contacts</h2>
+        <p className="text-gray-500 mt-1 text-sm">
+          {error ? "Failed to load contacts." : `${totalCount ?? 0} total`}
+        </p>
       </div>
 
-      {/* Stats — always 2-up */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-6">
-        {statCards.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Link
-              key={stat.title}
-              href={stat.href}
-              className="bg-white rounded-xl shadow-sm p-4 sm:p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs sm:text-sm text-gray-500">{stat.title}</p>
-                  <p className="text-2xl sm:text-3xl font-bold text-gray-800 mt-1">{stat.value}</p>
-                </div>
-                <div className={`${stat.color} p-2 sm:p-3 rounded-lg shrink-0`}>
-                  <Icon className="text-white" size={20} />
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Contacts list */}
       <div className="bg-white rounded-xl shadow-sm">
-        <div className="px-4 sm:px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h3 className="text-base font-semibold text-gray-800">Recent Contacts</h3>
-          <Link href="/admin/contacts" className="text-sm text-[#c44944] hover:underline">
-            View all
-          </Link>
-        </div>
-
-        {contacts && contacts.length > 0 ? (
+        {error ? (
+          <p className="px-6 py-10 text-center text-sm text-red-600">Error: {error.message}</p>
+        ) : contacts && contacts.length > 0 ? (
           <>
             {/* Mobile: card rows */}
             <div className="md:hidden divide-y divide-gray-100">
@@ -116,7 +85,7 @@ export default async function AdminDashboard() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-gray-100">
                   {(contacts as Contact[]).map((contact) => (
                     <tr key={contact.id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 text-sm font-medium">
@@ -129,13 +98,15 @@ export default async function AdminDashboard() {
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-600">{contact.email}</td>
                       <td className="px-6 py-4 text-sm text-gray-500">
-                        {formatDateDesktop(contact.created_at)}
+                        {formatDateDesktop(contact.created_at, true)}
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+
+            <Pagination currentPage={page} totalPages={totalPages} basePath="/admin/contacts" />
           </>
         ) : (
           <p className="px-6 py-10 text-center text-sm text-gray-500">No contacts yet.</p>
