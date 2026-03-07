@@ -352,7 +352,7 @@ export default function AdminCoursesPage() {
                 type="email"
                 value={formData.rep_email}
                 onChange={(e) => setFormData({ ...formData, rep_email: e.target.value })}
-                placeholder="rep@pewec.com"
+                placeholder="rep@pewec-pptt.org"
               />
             </div>
 

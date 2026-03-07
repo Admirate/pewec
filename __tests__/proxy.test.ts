@@ -23,7 +23,7 @@ function mockUser(user: object | null) {
   } as unknown as ReturnType<typeof createServerClient>);
 }
 
-const FAKE_USER = { id: "user-123", email: "admin@pewec.com" };
+const FAKE_USER = { id: "user-123", email: "admin@pewec-pptt.org" };
 
 // ---------------------------------------------------------------------------
 // Unauthenticated requests (getUser returns null)

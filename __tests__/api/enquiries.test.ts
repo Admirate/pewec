@@ -59,7 +59,7 @@ function setupSupabaseMock({
   courseData = {
     name: "Teacher Training",
     description: "A great course",
-    rep_email: "rep@pewec.com",
+    rep_email: "rep@pewec-pptt.org",
   },
   courseError = null,
   enquiryError = null,

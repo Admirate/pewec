@@ -77,7 +77,7 @@ export const courseEnquiryEmailTemplate = (data: {
               <table role="presentation" style="width:100%;border-collapse:collapse;">
                 <tr>
                   <td align="center">
-                    <a href="https://pewec.com/courses" style="display:inline-block;background-color:#006457;color:#ffffff;text-decoration:none;padding:14px 30px;border-radius:50px;font-size:16px;font-weight:600;">View All Courses</a>
+                    <a href="https://pewec-pptt.org/courses" style="display:inline-block;background-color:#006457;color:#ffffff;text-decoration:none;padding:14px 30px;border-radius:50px;font-size:16px;font-weight:600;">View All Courses</a>
                   </td>
                 </tr>
               </table>
@@ -187,7 +187,7 @@ export const contactEnquiryEmailTemplate = (data: {
               <table role="presentation" style="width:100%;border-collapse:collapse;">
                 <tr>
                   <td align="center">
-                    <a href="https://pewec.com" style="display:inline-block;background-color:#c44944;color:#ffffff;text-decoration:none;padding:14px 30px;border-radius:50px;font-size:16px;font-weight:600;">Visit Our Website</a>
+                    <a href="https://pewec-pptt.org" style="display:inline-block;background-color:#c44944;color:#ffffff;text-decoration:none;padding:14px 30px;border-radius:50px;font-size:16px;font-weight:600;">Visit Our Website</a>
                   </td>
                 </tr>
               </table>
