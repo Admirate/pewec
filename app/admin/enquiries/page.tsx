@@ -4,14 +4,7 @@ import EnquiriesClient from "./EnquiriesClient";
 
 const PAGE_SIZE = 10;
 
-const VALID_TYPES = [
-  "course",
-  "general",
-  "admission",
-  "fees",
-  "facilities",
-  "other",
-] as const;
+const VALID_TYPES = ["course", "general", "admission", "fees", "facilities", "other"] as const;
 type EnquiryType = (typeof VALID_TYPES)[number];
 
 function isValidType(v: string | undefined): v is EnquiryType {
@@ -53,10 +46,7 @@ export default async function EnquiriesPage({
       contacts: { first_name: string; last_name: string; email: string } | null;
       [key: string]: unknown;
     }) => ({
-      ...(row as Omit<
-        EnquiryWithContact,
-        "first_name" | "last_name" | "email"
-      >),
+      ...(row as Omit<EnquiryWithContact, "first_name" | "last_name" | "email">),
       first_name: contacts?.first_name ?? "",
       last_name: contacts?.last_name ?? "",
       email: contacts?.email ?? "",

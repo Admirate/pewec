@@ -12,7 +12,7 @@
 import nodemailer from "nodemailer";
 import { Resend } from "resend";
 
-const FROM = process.env.EMAIL_FROM ?? "noreply@pewec.com";
+const FROM = process.env.EMAIL_FROM ?? "noreply@pewec-pptt.org";
 
 async function sendViaMailpit(to: string, subject: string, html: string): Promise<void> {
   const transporter = nodemailer.createTransport({
