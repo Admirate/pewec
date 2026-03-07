@@ -3,7 +3,9 @@ export const siteConfig = {
   shortName: "PEWEC",
   description:
     "Princess Esin Women's Educational Centre (PEWEC) offers education and vocational training for women in Hyderabad, India. Courses in academics, computer skills, beauty, and more.",
-  url: process.env.NEXT_PUBLIC_CANONICAL_URL?.replace(/\/+$/, "") ?? "https://pewec.com",
+  url:
+    process.env.NEXT_PUBLIC_CANONICAL_URL?.replace(/\/+$/, "") ??
+    "https://pewec.com",
   logo: "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/logo.png",
   address: {
     street: "223, 6A3 Building adjacent to Durru Shehvar Hospital",
@@ -14,6 +16,6 @@ export const siteConfig = {
     country: "IN",
   },
   phone: ["+91 40 24578078", "+91 40 24520761"],
-  email: "pewecpewec@yahoo.co.in",
+  email: "pewecpewec@yahoo.com",
   parentOrganization: "Nizamia Hyderabad Women's Association Trust",
 };
