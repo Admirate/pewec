@@ -63,8 +63,9 @@ export default function ContactClient() {
             </h2>
 
             <p className="text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed">
-              22-3-643/660, Building No.5,No 5 Purani Haveli Road,
-              <br /> Hyderabad Telangana 500002
+              22-3-643/660, Building No.5, Purani Haveli
+              <br />
+              Hyderabad – 500002, Telangana, India
             </p>
           </div>
 
