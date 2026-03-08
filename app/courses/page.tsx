@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import CoursesClient from "./CoursesClient";
 
 export const metadata: Metadata = {
-  title: "Courses",
+  title: "Short Term and Long Term Courses are available",
   description:
     "Explore long-term and short-term courses at PEWEC including academic programs, computer training, beautician courses, and vocational skills for women.",
   alternates: {

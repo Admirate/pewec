@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ContactClient from "./ContactClient";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: "Get In Touch with us and Enquire Online",
   description:
     "Get in touch with Princess Esin Women's Educational Centre. Visit us in Hyderabad, call, email, or send an enquiry online.",
   alternates: {

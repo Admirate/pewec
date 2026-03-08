@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import SisterInstitutionsClient from "./SisterInstitutionsClient";
 
 export const metadata: Metadata = {
-  title: "Sister Institutions",
+  title: "Discover Sister Institutions",
   description:
     "Discover the sister institutions managed under the Nizamia Hyderabad Women's Association Trust alongside PEWEC.",
   alternates: {
