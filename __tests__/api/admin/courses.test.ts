@@ -6,6 +6,20 @@ vi.mock("@/lib/supabase", () => ({
   getSupabaseAdmin: vi.fn(),
 }));
 
+// Mock Next.js request-scoped APIs that aren't available in vitest
+vi.mock("next/headers", () => ({
+  cookies: vi.fn().mockResolvedValue({ getAll: () => [], set: vi.fn() }),
+}));
+
+// Mock the Supabase SSR client so getSessionUser() returns a fake authenticated user
+vi.mock("@supabase/ssr", () => ({
+  createServerClient: vi.fn(() => ({
+    auth: {
+      getUser: vi.fn().mockResolvedValue({ data: { user: { id: "test-user" } } }),
+    },
+  })),
+}));
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
