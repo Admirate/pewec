@@ -17,7 +17,7 @@ const SAMPLE_COURSE = {
   name: "Teacher Training",
   type: "long_term" as const,
   description: "A great course",
-  rep_email: "rep@pewec.com",
+  rep_email: "rep@pewec-pptt.org",
   is_active: true,
   created_at: "2026-01-01T00:00:00Z",
 };
@@ -98,7 +98,7 @@ describe("POST /api/admin/courses", () => {
     name: "New Course",
     type: "long_term",
     description: "A description",
-    rep_email: "rep@pewec.com",
+    rep_email: "rep@pewec-pptt.org",
     is_active: true,
   };
 

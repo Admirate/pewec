@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  placeholder="admin@pewec.com"
+                  placeholder="admin@pewec-pptt.org"
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c44944] focus:border-transparent"
                 />
               </div>

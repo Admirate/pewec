@@ -4,9 +4,7 @@ export function generateValidEnquiry() {
   return {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
-    email: faker.internet
-      .email({ firstName: faker.person.firstName() })
-      .toLowerCase(),
+    email: faker.internet.email({ firstName: faker.person.firstName() }).toLowerCase(),
     phone: faker.string.numeric(10),
     enquiryType: "general",
     message: faker.lorem.sentence(),
