@@ -5,6 +5,8 @@ import GlobalEnquiryModal from "@/components/GlobalEnquiryModal";
 import { siteConfig } from "@/lib/seo";
 import { getOrganizationJsonLd } from "@/lib/json-ld";
 
+import Script from "next/script";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -53,6 +55,7 @@ export default function RootLayout({
       >
         <script type="application/ld+json">{jsonLd}</script>
         <GlobalEnquiryModal>{children}</GlobalEnquiryModal>
+        <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
       </body>
     </html>
   );
