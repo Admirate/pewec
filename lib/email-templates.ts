@@ -1,3 +1,5 @@
+import { ENQUIRY_TYPES } from "@/lib/constants";
+
 // ---------------------------------------------------------------------------
 // Requester confirmation — course enquiry
 // ---------------------------------------------------------------------------
@@ -113,14 +115,8 @@ export const contactEnquiryEmailTemplate = (data: {
   email: string;
   enquiry_type: string;
 }) => {
-  const enquiryTypeLabels: Record<string, string> = {
-    general: "General Inquiry",
-    admission: "Admission Related",
-    fees: "Fees & Payment",
-    facilities: "Facilities & Campus",
-    other: "Other",
-  };
-  const enquiryTypeLabel = enquiryTypeLabels[data.enquiry_type] ?? data.enquiry_type;
+  const enquiryTypeLabel =
+    ENQUIRY_TYPES.find((t) => t.id === data.enquiry_type)?.name ?? data.enquiry_type;
 
   return `
 <!DOCTYPE html>
