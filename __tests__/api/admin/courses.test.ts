@@ -31,6 +31,8 @@ const SAMPLE_COURSE = {
   name: "Teacher Training",
   type: "long_term" as const,
   description: "A great course",
+  image: "https://example.com/7.png",
+  bullet_points: ["9 Months Program"],
   rep_email: "rep@pewec-pptt.org",
   is_active: true,
   created_at: "2026-01-01T00:00:00Z",

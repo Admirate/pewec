@@ -17,8 +17,22 @@ vi.mock("@/lib/supabase", () => ({
 // ---------------------------------------------------------------------------
 
 const ACTIVE_COURSES = [
-  { id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890", name: "Teacher Training", type: "long_term" },
-  { id: "b2c3d4e5-f6a7-8901-bcde-f12345678901", name: "Computer Basics", type: "short_term" },
+  {
+    id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    name: "Teacher Training",
+    type: "long_term",
+    description: "A course for teachers",
+    image: "https://example.com/7.png",
+    bullet_points: ["9 Months Program"],
+  },
+  {
+    id: "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    name: "Computer Basics",
+    type: "short_term",
+    description: "Learn computer basics",
+    image: "https://example.com/8.png",
+    bullet_points: null,
+  },
 ];
 
 function setupMock(data: typeof ACTIVE_COURSES | null, error: object | null = null) {
