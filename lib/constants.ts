@@ -23,6 +23,8 @@ export type Course = {
   name: string;
   type: "long_term" | "short_term";
   description: string | null;
+  image: string | null;
+  bullet_points: string[] | null;
   rep_email: string;
   is_active: boolean;
   created_at: string;

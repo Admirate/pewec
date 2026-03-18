@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
-import CoursesClient from "./CoursesClient";
+import CoursesDirectoryClient from "./CoursesDirectoryClient";
 
 export const metadata: Metadata = {
-  title: "Short Term and Long Term Courses are available",
+  title: "Courses | PEWEC",
   description:
-    "Explore long-term and short-term courses at PEWEC including academic programs, computer training, beautician courses, and vocational skills for women.",
+    "Explore long-term and short-term courses at PEWEC including academic programs, beautician courses, and vocational skills for women.",
   alternates: {
     canonical: "/courses",
   },
   openGraph: {
     title: "Courses | PEWEC",
     description:
-      "Explore long-term and short-term courses at PEWEC including academic programs, computer training, and vocational skills.",
+      "Explore long-term and short-term courses at PEWEC including academic programs, and vocational skills.",
     url: "/courses",
   },
   twitter: {
     title: "Courses | PEWEC",
     description:
-      "Explore long-term and short-term courses at PEWEC including academic programs, computer training, and vocational skills.",
+      "Explore long-term and short-term courses at PEWEC including academic programs, and vocational skills.",
   },
 };
 
 export default function CoursesPage() {
-  return <CoursesClient />;
+  return <CoursesDirectoryClient />;
 }

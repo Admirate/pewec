@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 export async function GET() {
   const { data, error } = await supabase
     .from("courses")
-    .select("id, name, type")
+    .select("id, name, type, description, image, bullet_points")
     .eq("is_active", true)
     .order("type")
     .order("name");

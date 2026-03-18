@@ -67,6 +67,8 @@ const CourseCreateSchema = z.object({
   name: z.string().min(1).max(200),
   type: z.enum(["long_term", "short_term"]),
   description: z.string().max(2000).optional().nullable(),
+  image: z.string().max(2000).optional().nullable(),
+  bullet_points: z.array(z.string()).optional().nullable(),
   rep_email: z.string().email().max(254),
   is_active: z.boolean().default(true),
 });
@@ -113,6 +115,8 @@ const CourseUpdateSchema = z.object({
   name: z.string().min(1).max(200).optional(),
   type: z.enum(["long_term", "short_term"]).optional(),
   description: z.string().max(2000).optional().nullable(),
+  image: z.string().max(2000).optional().nullable(),
+  bullet_points: z.array(z.string()).optional().nullable(),
   rep_email: z.string().email().max(254).optional(),
   is_active: z.boolean().optional(),
 });

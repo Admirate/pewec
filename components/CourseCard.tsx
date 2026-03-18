@@ -12,7 +12,7 @@ const mulish = Mulish({
 type CourseCardProps = {
   title: string;
   description: string;
-  points?: string[];
+  bullet_points?: string[];
   image: string;
   reverse?: boolean;
 };
@@ -20,7 +20,7 @@ type CourseCardProps = {
 export default function CourseCard({
   title,
   description,
-  points,
+  bullet_points,
   image,
   reverse = false,
 }: CourseCardProps) {
@@ -65,11 +65,11 @@ export default function CourseCard({
           {description}
         </p>
 
-        {points && (
+        {bullet_points && (
           <ul
             className={`${mulish.className} space-y-1.5 sm:space-y-2 text-gray-700 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl`}
           >
-            {points.map((p, i) => (
+            {bullet_points.map((p, i) => (
               <li key={i}>• {p}</li>
             ))}
           </ul>
