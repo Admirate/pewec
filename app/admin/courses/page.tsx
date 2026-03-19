@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, Pencil, RefreshCw, ToggleLeft, ToggleRight } from "lucide-react";
+import { Plus, Pencil, RefreshCw, ToggleLeft, ToggleRight, X } from "lucide-react";
 import type { Course } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,7 @@ type CourseFormData = {
   description: string;
   rep_email: string;
   is_active: boolean;
+  bullet_points: string[];
 };
 
 const EMPTY_FORM: CourseFormData = {
@@ -33,6 +34,7 @@ const EMPTY_FORM: CourseFormData = {
   description: "",
   rep_email: "",
   is_active: true,
+  bullet_points: [],
 };
 
 // ---------------------------------------------------------------------------
@@ -93,6 +95,7 @@ export default function AdminCoursesPage() {
       description: course.description ?? "",
       rep_email: course.rep_email,
       is_active: course.is_active,
+      bullet_points: course.bullet_points ?? [],
     });
     setFormError("");
     setModalOpen(true);
@@ -125,7 +128,9 @@ export default function AdminCoursesPage() {
       const isEdit = !!editingCourse;
       const url = "/api/admin/courses";
       const method = isEdit ? "PATCH" : "POST";
-      const body = isEdit ? { id: editingCourse!.id, ...formData } : formData;
+      const cleanedPoints = formData.bullet_points.filter((p) => p.trim() !== "");
+      const payload = { ...formData, bullet_points: cleanedPoints.length > 0 ? cleanedPoints : null };
+      const body = isEdit ? { id: editingCourse!.id, ...payload } : payload;
 
       const res = await fetch(url, {
         method,
@@ -349,10 +354,10 @@ export default function AdminCoursesPage() {
               <Label htmlFor="course-rep-email">Rep Email *</Label>
               <Input
                 id="course-rep-email"
-                type="email"
+                type="text"
                 value={formData.rep_email}
                 onChange={(e) => setFormData({ ...formData, rep_email: e.target.value })}
-                placeholder="rep@pewec-pptt.org"
+                placeholder="rep@pewec-pptt.org, admin@pewec-pptt.org"
               />
             </div>
 
@@ -366,6 +371,50 @@ export default function AdminCoursesPage() {
                 rows={3}
                 placeholder="Brief description of the course..."
               />
+            </div>
+
+            {/* Bullet Points */}
+            <div className="space-y-1">
+              <Label>Bullet Points</Label>
+              <div className="space-y-2">
+                {formData.bullet_points.map((point, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={point}
+                      onChange={(e) => {
+                        const updated = [...formData.bullet_points];
+                        updated[index] = e.target.value;
+                        setFormData({ ...formData, bullet_points: updated });
+                      }}
+                      placeholder={`Bullet point ${index + 1}`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = formData.bullet_points.filter((_, i) => i !== index);
+                        setFormData({ ...formData, bullet_points: updated });
+                      }}
+                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                      title="Remove"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData({
+                      ...formData,
+                      bullet_points: [...formData.bullet_points, ""],
+                    })
+                  }
+                  className="flex items-center gap-1 text-sm text-[#006457] hover:underline"
+                >
+                  <Plus size={14} />
+                  Add bullet point
+                </button>
+              </div>
             </div>
 
             {/* Active toggle */}
