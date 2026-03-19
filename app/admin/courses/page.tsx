@@ -198,7 +198,7 @@ export default function AdminCoursesPage() {
       const res = await fetch("/api/admin/storage/upload", { method: "POST", body });
       const json = await res.json();
       if (res.ok && json.success) {
-        setFormData({ ...formData, image: json.data.url });
+        setFormData(prev => ({ ...prev, image: json.data.url }));
         // Add to existing images list so it shows in the gallery
         setExistingImages((prev) => [...prev, json.data]);
       } else {

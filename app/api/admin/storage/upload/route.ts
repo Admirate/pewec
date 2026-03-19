@@ -1,32 +1,10 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { getSessionUser } from "@/lib/auth";
+import { getImagePublicUrl } from "@/lib/storage";
 
 const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
-
-async function getSessionUser() {
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
-        },
-      },
-    },
-  );
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
-}
 
 // ---------------------------------------------------------------------------
 // POST /api/admin/storage/upload — upload an image to email-creatives/images
@@ -82,8 +60,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const url = `${baseUrl}/storage/v1/object/public/email-creatives/images/${safeName}`;
+    const url = getImagePublicUrl(safeName);
 
     return NextResponse.json({ success: true, data: { name: safeName, url } }, { status: 201 });
   } catch (error) {
