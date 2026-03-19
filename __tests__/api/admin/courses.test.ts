@@ -138,6 +138,27 @@ describe("POST /api/admin/courses", () => {
     expect(res.status).toBe(400);
   });
 
+  it("returns 201 when rep_email contains comma-separated valid emails", async () => {
+    setupInsertMock(SAMPLE_COURSE);
+    const res = await POST(
+      makeRequest("POST", {
+        ...validBody,
+        rep_email: "pewecpewec@yahoo.com, princessesingnm@gmail.com, essentials@admirate.in",
+      }),
+    );
+    expect(res.status).toBe(201);
+  });
+
+  it("returns 400 when rep_email contains one invalid email among comma-separated values", async () => {
+    const res = await POST(
+      makeRequest("POST", {
+        ...validBody,
+        rep_email: "valid@example.com, not-an-email, another@example.com",
+      }),
+    );
+    expect(res.status).toBe(400);
+  });
+
   it("returns 400 when type is invalid", async () => {
     const res = await POST(makeRequest("POST", { ...validBody, type: "medium_term" }));
     expect(res.status).toBe(400);

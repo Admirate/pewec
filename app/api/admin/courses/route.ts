@@ -4,6 +4,15 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
+const commaEmails = z
+  .string()
+  .max(500)
+  .refine(
+    (val) =>
+      val.split(",").every((e) => z.string().email().safeParse(e.trim()).success),
+    { message: "Each comma-separated value must be a valid email" },
+  );
+
 async function getSessionUser() {
   const cookieStore = await cookies();
   const supabase = createServerClient(
@@ -69,7 +78,7 @@ const CourseCreateSchema = z.object({
   description: z.string().max(2000).optional().nullable(),
   image: z.string().max(2000).optional().nullable(),
   bullet_points: z.array(z.string()).optional().nullable(),
-  rep_email: z.string().email().max(254),
+  rep_email: commaEmails,
   is_active: z.boolean().default(true),
 });
 
@@ -117,7 +126,7 @@ const CourseUpdateSchema = z.object({
   description: z.string().max(2000).optional().nullable(),
   image: z.string().max(2000).optional().nullable(),
   bullet_points: z.array(z.string()).optional().nullable(),
-  rep_email: z.string().email().max(254).optional(),
+  rep_email: commaEmails.optional(),
   is_active: z.boolean().optional(),
 });
 
