@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, Pencil, RefreshCw, ToggleLeft, ToggleRight, X } from "lucide-react";
+import { Plus, Pencil, RefreshCw, ToggleLeft, ToggleRight, X, Upload, Image as ImageIcon } from "lucide-react";
 import type { Course } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +23,7 @@ type CourseFormData = {
   name: string;
   type: "long_term" | "short_term";
   description: string;
+  image: string;
   rep_email: string;
   is_active: boolean;
   bullet_points: string[];
@@ -32,6 +33,7 @@ const EMPTY_FORM: CourseFormData = {
   name: "",
   type: "long_term",
   description: "",
+  image: "",
   rep_email: "",
   is_active: true,
   bullet_points: [],
@@ -52,6 +54,12 @@ export default function AdminCoursesPage() {
   const [formData, setFormData] = useState<CourseFormData>(EMPTY_FORM);
   const [formError, setFormError] = useState("");
   const [saving, setSaving] = useState(false);
+
+  // Image picker state
+  const [browseOpen, setBrowseOpen] = useState(false);
+  const [existingImages, setExistingImages] = useState<{ name: string; url: string }[]>([]);
+  const [loadingImages, setLoadingImages] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   // ---------------------------------------------------------------------------
   // Data fetching
@@ -93,6 +101,7 @@ export default function AdminCoursesPage() {
       name: course.name,
       type: course.type,
       description: course.description ?? "",
+      image: course.image ?? "",
       rep_email: course.rep_email,
       is_active: course.is_active,
       bullet_points: course.bullet_points ?? [],
@@ -106,6 +115,8 @@ export default function AdminCoursesPage() {
     setEditingCourse(null);
     setFormData(EMPTY_FORM);
     setFormError("");
+    setBrowseOpen(false);
+    setExistingImages([]);
   };
 
   // ---------------------------------------------------------------------------
@@ -129,7 +140,11 @@ export default function AdminCoursesPage() {
       const url = "/api/admin/courses";
       const method = isEdit ? "PATCH" : "POST";
       const cleanedPoints = formData.bullet_points.filter((p) => p.trim() !== "");
-      const payload = { ...formData, bullet_points: cleanedPoints.length > 0 ? cleanedPoints : null };
+      const payload = {
+        ...formData,
+        image: formData.image.trim() || null,
+        bullet_points: cleanedPoints.length > 0 ? cleanedPoints : null,
+      };
       const body = isEdit ? { id: editingCourse!.id, ...payload } : payload;
 
       const res = await fetch(url, {
@@ -146,6 +161,54 @@ export default function AdminCoursesPage() {
       setFormError(err instanceof Error ? err.message : "Save failed");
     } finally {
       setSaving(false);
+    }
+  };
+
+  // ---------------------------------------------------------------------------
+  // Image picker helpers
+  // ---------------------------------------------------------------------------
+
+  const fetchExistingImages = async () => {
+    if (existingImages.length > 0) {
+      setBrowseOpen(!browseOpen);
+      return;
+    }
+    setLoadingImages(true);
+    try {
+      const res = await fetch("/api/admin/storage");
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setExistingImages(json.data);
+      }
+    } catch {
+      // silently fail — user can retry
+    } finally {
+      setLoadingImages(false);
+      setBrowseOpen(true);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      const res = await fetch("/api/admin/storage/upload", { method: "POST", body });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setFormData({ ...formData, image: json.data.url });
+        // Add to existing images list so it shows in the gallery
+        setExistingImages((prev) => [...prev, json.data]);
+      } else {
+        setFormError(json.error ?? "Upload failed");
+      }
+    } catch {
+      setFormError("Upload failed");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
     }
   };
 
@@ -308,7 +371,7 @@ export default function AdminCoursesPage() {
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={closeModal} />
-          <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-4">
+          <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <h3 className="text-xl font-bold text-gray-800">
               {editingCourse ? "Edit Course" : "Add Course"}
             </h3>
@@ -371,6 +434,95 @@ export default function AdminCoursesPage() {
                 rows={3}
                 placeholder="Brief description of the course..."
               />
+            </div>
+
+            {/* Image */}
+            <div className="space-y-2">
+              <Label>Image</Label>
+
+              {/* Preview */}
+              {formData.image && (
+                <div className="relative inline-block">
+                  <img
+                    src={formData.image}
+                    alt="Course preview"
+                    className="h-24 w-auto rounded-lg border border-gray-200 object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, image: "" })}
+                    className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                    title="Remove image"
+                  >
+                    <X size={12} />
+                  </button>
+                </div>
+              )}
+
+              {/* URL input */}
+              <Input
+                type="text"
+                value={formData.image}
+                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                placeholder="Image URL or use buttons below"
+              />
+
+              {/* Browse / Upload buttons */}
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={fetchExistingImages}
+                  disabled={loadingImages}
+                  className="flex items-center gap-1 text-sm px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+                >
+                  <ImageIcon size={14} />
+                  {loadingImages ? "Loading..." : "Browse Existing"}
+                </button>
+                <label className="flex items-center gap-1 text-sm px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
+                  <Upload size={14} />
+                  {uploading ? "Uploading..." : "Upload New"}
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                  />
+                </label>
+              </div>
+
+              {/* Collapsible gallery */}
+              {browseOpen && (
+                <div className="max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-2">
+                  {existingImages.length === 0 ? (
+                    <p className="text-sm text-gray-400 text-center py-4">No images found</p>
+                  ) : (
+                    <div className="grid grid-cols-4 gap-2">
+                      {existingImages.map((img) => (
+                        <button
+                          key={img.name}
+                          type="button"
+                          onClick={() => {
+                            setFormData({ ...formData, image: img.url });
+                            setBrowseOpen(false);
+                          }}
+                          className={`rounded-lg border-2 overflow-hidden transition-colors ${
+                            formData.image === img.url
+                              ? "border-[#006457]"
+                              : "border-transparent hover:border-gray-300"
+                          }`}
+                        >
+                          <img
+                            src={img.url}
+                            alt={img.name}
+                            className="w-full h-16 object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Bullet Points */}
