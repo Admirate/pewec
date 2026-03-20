@@ -163,9 +163,7 @@ export default function CoursesByTypeClient({ type }: { type: "long_term" | "sho
             />
             <div className="absolute inset-0 bg-black/50" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-              <p
-                className={`${poppins.className} text-white/80 text-sm sm:text-base md:text-lg`}
-              >
+              <p className={`${poppins.className} text-white/80 text-sm sm:text-base md:text-lg`}>
                 Looking for something different?
               </p>
               <Link

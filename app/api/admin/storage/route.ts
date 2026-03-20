@@ -21,10 +21,7 @@ export async function GET() {
 
     if (error) {
       console.error("Storage list error:", error);
-      return NextResponse.json(
-        { success: false, error: "Failed to list images" },
-        { status: 500 },
-      );
+      return NextResponse.json({ success: false, error: "Failed to list images" }, { status: 500 });
     }
 
     const images = (data ?? [])

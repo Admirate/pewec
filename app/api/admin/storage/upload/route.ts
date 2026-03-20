@@ -21,10 +21,7 @@ export async function POST(req: Request) {
     const file = formData.get("file");
 
     if (!file || !(file instanceof File)) {
-      return NextResponse.json(
-        { success: false, error: "No file provided" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, error: "No file provided" }, { status: 400 });
     }
 
     if (file.size > MAX_SIZE) {
