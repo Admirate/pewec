@@ -23,10 +23,7 @@ vi.mock("@supabase/ssr", () => ({
 // Helpers
 // ---------------------------------------------------------------------------
 
-function setupListMock(
-  data: { name: string; id: string }[] | null,
-  error: object | null = null,
-) {
+function setupListMock(data: { name: string; id: string }[] | null, error: object | null = null) {
   const listFn = vi.fn().mockResolvedValue({ data, error });
   vi.mocked(getSupabaseAdmin).mockReturnValue({
     storage: { from: vi.fn().mockReturnValue({ list: listFn }) },

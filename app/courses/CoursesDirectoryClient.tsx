@@ -84,7 +84,7 @@ export default function CoursesDirectoryClient() {
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
               <Link href={cat.href} className="group block">
-                <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px]">
+                <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl h-62.5 sm:h-75 md:h-87.5 lg:h-100">
                   <img
                     src={cat.image}
                     alt={cat.title}

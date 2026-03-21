@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, Pencil, RefreshCw, ToggleLeft, ToggleRight, X, Upload, Image as ImageIcon } from "lucide-react";
+import {
+  Plus,
+  Pencil,
+  RefreshCw,
+  ToggleLeft,
+  ToggleRight,
+  X,
+  Upload,
+  Image as ImageIcon,
+} from "lucide-react";
 import type { Course } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -198,7 +207,7 @@ export default function AdminCoursesPage() {
       const res = await fetch("/api/admin/storage/upload", { method: "POST", body });
       const json = await res.json();
       if (res.ok && json.success) {
-        setFormData(prev => ({ ...prev, image: json.data.url }));
+        setFormData((prev) => ({ ...prev, image: json.data.url }));
         // Add to existing images list so it shows in the gallery
         setExistingImages((prev) => [...prev, json.data]);
       } else {
@@ -512,11 +521,7 @@ export default function AdminCoursesPage() {
                               : "border-transparent hover:border-gray-300"
                           }`}
                         >
-                          <img
-                            src={img.url}
-                            alt={img.name}
-                            className="w-full h-16 object-cover"
-                          />
+                          <img src={img.url} alt={img.name} className="w-full h-16 object-cover" />
                         </button>
                       ))}
                     </div>

@@ -6,11 +6,9 @@ import { getSessionUser } from "@/lib/auth";
 const commaEmails = z
   .string()
   .max(500)
-  .refine(
-    (val) =>
-      val.split(",").every((e) => z.string().email().safeParse(e.trim()).success),
-    { message: "Each comma-separated value must be a valid email" },
-  );
+  .refine((val) => val.split(",").every((e) => z.string().email().safeParse(e.trim()).success), {
+    message: "Each comma-separated value must be a valid email",
+  });
 
 // ---------------------------------------------------------------------------
 // GET /api/admin/courses — list all courses (active and inactive)
