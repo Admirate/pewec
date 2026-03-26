@@ -129,7 +129,7 @@ export default function Footer() {
         >
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} className="hover:opacity-80 uppercase">
-              {item.name}
+              {item.label}
             </Link>
           ))}
         </motion.div>

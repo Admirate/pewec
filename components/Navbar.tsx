@@ -88,7 +88,7 @@ export default function Navbar() {
                       isActive(item.href) ? "text-[#c44944]" : "text-gray-700 hover:text-[#c44944]",
                     )}
                   >
-                    {item.name}
+                    {item.label}
                   </Link>
                 ))}
               </nav>
