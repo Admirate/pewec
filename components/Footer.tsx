@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEnquiryModal } from "@/components/GlobalEnquiryModal";
 import { MapPin, Phone, Printer } from "lucide-react";
+import { navItems } from "@/lib/navigation";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -126,19 +127,11 @@ export default function Footer() {
             gap-4 sm:gap-6 md:gap-8 lg:gap-16
             text-xs sm:text-sm md:text-base lg:text-lg tracking-wide`}
         >
-          <Link href="/about" className="hover:opacity-80">
-            ABOUT US
-          </Link>
-          <Link href="/contact" className="hover:opacity-80">
-            CONTACT US
-          </Link>
-          <Link href="/contact" className="hover:opacity-80">
-            HELP
-          </Link>
-          <Link href="/sister-institutions" className="hover:opacity-80">
-            SISTER INSTITUTIONS
-          </Link>
-          <p className="hover:opacity-80 cursor-pointer">DISCLAIMER</p>
+          {navItems.map((item) => (
+            <Link key={item.href} href={item.href} className="hover:opacity-80 uppercase">
+              {item.label}
+            </Link>
+          ))}
         </motion.div>
       </div>
     </motion.footer>

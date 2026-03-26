@@ -10,19 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Mulish } from "next/font/google";
 import { cn } from "@/lib/utils";
 import PillNav from "@/components/PillNav";
+import { navItems } from "@/lib/navigation";
 
 const mulish = Mulish({
   subsets: ["latin"],
   weight: ["600"],
 });
-
-const navItems = [
-  { name: "Home", href: "/", label: "Home" },
-  { name: "About Us", href: "/about", label: "About Us" },
-  { name: "Courses", href: "/courses", label: "Courses" },
-  { name: "Sister Institutions", href: "/sister-institutions", label: "Sister Institutions" },
-  { name: "Contact Us", href: "/contact", label: "Contact Us" },
-];
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -95,7 +88,7 @@ export default function Navbar() {
                       isActive(item.href) ? "text-[#c44944]" : "text-gray-700 hover:text-[#c44944]",
                     )}
                   >
-                    {item.name}
+                    {item.label}
                   </Link>
                 ))}
               </nav>
