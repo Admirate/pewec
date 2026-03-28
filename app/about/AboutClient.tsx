@@ -74,6 +74,40 @@ export default function AboutClient() {
           <div className="w-full border-b-4 border-[#7EACB5] mt-6 sm:mt-8"></div>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+        >
+          <h2
+            className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8`}
+          >
+            Trustees
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            {[
+              "Syed Anis Hussain",
+              "Wajid Ali Kamil",
+              "Mahpara Ali",
+              "Mateen Ansari",
+            ].map((name) => (
+              <div
+                key={name}
+                className="flex items-center gap-3 bg-white rounded-xl px-5 py-4 shadow-sm"
+              >
+                <span className="w-2.5 h-2.5 rounded-full bg-[#c44944] shrink-0" />
+                <span
+                  className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}
+                >
+                  {name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
         <div className="grid md:grid-cols-2 gap-10 sm:gap-12 md:gap-16">
           <motion.div
             initial={{ opacity: 0, x: -120 }}
