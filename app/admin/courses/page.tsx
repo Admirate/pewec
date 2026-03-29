@@ -30,7 +30,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 type CourseFormData = {
   name: string;
-  type: "long_term" | "short_term";
+  type: "long_term" | "short_term" | "regular";
   description: string;
   image: string;
   rep_email: string;
@@ -408,13 +408,14 @@ export default function AdminCoursesPage() {
               <Select
                 value={formData.type}
                 onValueChange={(value) =>
-                  setFormData({ ...formData, type: value as "long_term" | "short_term" })
+                  setFormData({ ...formData, type: value as "long_term" | "short_term" | "regular" })
                 }
               >
                 <SelectTrigger id="course-type" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="regular">Regular</SelectItem>
                   <SelectItem value="long_term">Long Term</SelectItem>
                   <SelectItem value="short_term">Short Term</SelectItem>
                 </SelectContent>
