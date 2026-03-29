@@ -21,25 +21,26 @@ const TYPE_CONFIG = {
     subtitle: "SIVE recognised vocational programs for professional certification.",
     heroImage:
       "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/10.png",
-    crossLink: { heading: "Long Term Courses", href: "/courses/long-term", heroImage: "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/7.png" },
   },
   long_term: {
     heading: "Long Term Courses",
     subtitle: "These courses focus on academic education and professional preparation.",
     heroImage:
       "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/7.png",
-    crossLink: { heading: "Short Term Courses", href: "/courses/short-term", heroImage: "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/13.png" },
   },
   short_term: {
     heading: "Short Term Courses",
     subtitle: "Practical skills courses in shorter duration.",
     heroImage:
       "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/13.png",
-    crossLink: { heading: "Long Term Courses", href: "/courses/long-term", heroImage: "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/7.png" },
   },
 } as const;
 
-export default function CoursesByTypeClient({ type }: { type: "long_term" | "short_term" | "regular" }) {
+export default function CoursesByTypeClient({
+  type,
+}: {
+  type: "long_term" | "short_term" | "regular";
+}) {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -158,31 +159,16 @@ export default function CoursesByTypeClient({ type }: { type: "long_term" | "sho
         )}
       </section>
 
-      {/* Cross-link to another course type */}
-      {(() => {
-        const cross = TYPE_CONFIG[type].crossLink;
-        return (
-          <section className="relative w-full overflow-hidden">
-            <img
-              src={cross.heroImage}
-              alt={cross.heading}
-              className="w-full h-48 sm:h-56 md:h-64 object-cover"
-            />
-            <div className="absolute inset-0 bg-black/50" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-              <p className={`${poppins.className} text-white/80 text-sm sm:text-base md:text-lg`}>
-                Looking for something different?
-              </p>
-              <Link
-                href={cross.href}
-                className={`${mulish.className} inline-flex items-center gap-2 text-white text-xl sm:text-2xl md:text-3xl font-semibold mt-2 hover:gap-4 transition-all`}
-              >
-                Browse {cross.heading} <span>&rarr;</span>
-              </Link>
-            </div>
-          </section>
-        );
-      })()}
+      <section className="bg-[#7EACB5] py-8 sm:py-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <Link
+            href="/courses"
+            className={`${mulish.className} text-white text-lg sm:text-xl md:text-2xl font-semibold hover:underline`}
+          >
+            ← Back to All Courses
+          </Link>
+        </div>
+      </section>
 
       <Footer />
     </div>
