@@ -16,21 +16,30 @@ const poppins = Poppins({
 });
 
 const TYPE_CONFIG = {
+  regular: {
+    heading: "Regular Courses",
+    subtitle: "SIVE recognised vocational programs for professional certification.",
+    heroImage:
+      "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/10.png",
+    crossLink: { heading: "Long Term Courses", href: "/courses/long-term", heroImage: "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/7.png" },
+  },
   long_term: {
     heading: "Long Term Courses",
     subtitle: "These courses focus on academic education and professional preparation.",
     heroImage:
       "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/7.png",
+    crossLink: { heading: "Short Term Courses", href: "/courses/short-term", heroImage: "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/13.png" },
   },
   short_term: {
     heading: "Short Term Courses",
     subtitle: "Practical skills courses in shorter duration.",
     heroImage:
       "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/13.png",
+    crossLink: { heading: "Long Term Courses", href: "/courses/long-term", heroImage: "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/7.png" },
   },
 } as const;
 
-export default function CoursesByTypeClient({ type }: { type: "long_term" | "short_term" }) {
+export default function CoursesByTypeClient({ type }: { type: "long_term" | "short_term" | "regular" }) {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -149,16 +158,14 @@ export default function CoursesByTypeClient({ type }: { type: "long_term" | "sho
         )}
       </section>
 
-      {/* Cross-link to the other course type */}
+      {/* Cross-link to another course type */}
       {(() => {
-        const otherType = type === "long_term" ? "short_term" : "long_term";
-        const other = TYPE_CONFIG[otherType];
-        const otherHref = `/courses/${otherType === "long_term" ? "long-term" : "short-term"}`;
+        const cross = TYPE_CONFIG[type].crossLink;
         return (
           <section className="relative w-full overflow-hidden">
             <img
-              src={other.heroImage}
-              alt={other.heading}
+              src={cross.heroImage}
+              alt={cross.heading}
               className="w-full h-48 sm:h-56 md:h-64 object-cover"
             />
             <div className="absolute inset-0 bg-black/50" />
@@ -167,10 +174,10 @@ export default function CoursesByTypeClient({ type }: { type: "long_term" | "sho
                 Looking for something different?
               </p>
               <Link
-                href={otherHref}
+                href={cross.href}
                 className={`${mulish.className} inline-flex items-center gap-2 text-white text-xl sm:text-2xl md:text-3xl font-semibold mt-2 hover:gap-4 transition-all`}
               >
-                Browse {other.heading} <span>&rarr;</span>
+                Browse {cross.heading} <span>&rarr;</span>
               </Link>
             </div>
           </section>

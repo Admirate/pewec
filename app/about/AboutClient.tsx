@@ -80,6 +80,25 @@ export default function AboutClient() {
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
         >
+          <p
+            className={`${mulish.className} text-gray-500 text-sm sm:text-base md:text-lg font-semibold uppercase tracking-widest mb-1`}
+          >
+            Name Of The Chairman, NHWAT
+          </p>
+          <h2
+            className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold`}
+          >
+            Prince Muffakhan Jah
+          </h2>
+          <div className="w-full border-b-4 border-[#7EACB5] mt-6 sm:mt-8"></div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+        >
           <h2
             className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8`}
           >

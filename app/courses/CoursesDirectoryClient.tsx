@@ -14,6 +14,14 @@ const poppins = Poppins({
 
 const categories = [
   {
+    title: "Regular Courses",
+    description:
+      "SIVE recognised vocational programs including ECHE, HCMPW, Office Automation, and Inservice training.",
+    href: "/courses/regular",
+    image:
+      "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/email-creatives/images/10.png",
+  },
+  {
     title: "Long Term Courses",
     description:
       "Academic education and professional preparation programs including Teacher Training, General Nursing, Intermediate Education, and more.",
@@ -67,15 +75,15 @@ export default function CoursesDirectoryClient() {
             transition={{ delay: 0.6, duration: 0.9 }}
             className={`${mulish.className} text-white mt-2 sm:mt-3 max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl`}
           >
-            Explore our long term and short term programs designed to empower women through
-            education and practical skills.
+            Explore our regular, long term, and short term programs designed to empower women
+            through education and practical skills.
           </motion.p>
         </div>
       </section>
 
       {/* Category Cards */}
       <section className="max-w-7xl mx-auto py-10 sm:py-12 md:py-16 px-4 sm:px-5 md:px-6">
-        <div className="grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 md:gap-12 lg:gap-16">
           {categories.map((cat, index) => (
             <motion.div
               key={cat.href}

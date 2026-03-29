@@ -21,7 +21,7 @@ export type Contact = {
 export type Course = {
   id: string;
   name: string;
-  type: "long_term" | "short_term";
+  type: "long_term" | "short_term" | "regular";
   description: string | null;
   image: string | null;
   bullet_points: string[] | null;
