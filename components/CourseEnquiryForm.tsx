@@ -140,6 +140,7 @@ export default function CourseEnquiryForm({
   };
 
   // Group courses by type for a nicer <optgroup> layout
+  const regularCourses = courses.filter((c) => c.type === "regular");
   const longTermCourses = courses.filter((c) => c.type === "long_term");
   const shortTermCourses = courses.filter((c) => c.type === "short_term");
 
@@ -250,6 +251,15 @@ export default function CourseEnquiryForm({
                 <option value="">
                   {coursesLoading ? "Loading courses..." : "Select a course"}
                 </option>
+                {regularCourses.length > 0 && (
+                  <optgroup label="Regular Courses">
+                    {regularCourses.map((course) => (
+                      <option key={course.id} value={course.id}>
+                        {course.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
                 {longTermCourses.length > 0 && (
                   <optgroup label="Long Term Courses">
                     {longTermCourses.map((course) => (
