@@ -62,7 +62,10 @@ export default function Footer() {
             className={`${mulish.className} space-y-4 sm:space-y-5 md:space-y-6 text-center lg:text-left`}
           >
             <div className="flex items-start sm:items-center gap-3 sm:gap-4 justify-center lg:justify-start">
-              <MapPin size={18} className="shrink-0 mt-1 sm:mt-0 sm:w-5 sm:h-5" />
+              <MapPin
+                size={18}
+                className="shrink-0 mt-1 sm:mt-0 sm:w-5 sm:h-5"
+              />
               <p className="text-sm sm:text-base md:text-lg lg:text-xl max-w-xs sm:max-w-none">
                 22-3-643/660, Building No.5, Purani Haveli
                 <br />
@@ -73,12 +76,16 @@ export default function Footer() {
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center lg:justify-start">
               <div className="flex items-center gap-2 sm:gap-3">
                 <Phone size={16} className="sm:w-5 sm:h-5" />
-                <p className="text-sm sm:text-base md:text-lg">(+91) 40 24578078</p>
+                <p className="text-sm sm:text-base md:text-lg">
+                  (+91) 63 00307851
+                </p>
               </div>
 
               <div className="flex items-center gap-2 sm:gap-3">
                 <Printer size={16} className="sm:w-5 sm:h-5" />
-                <p className="text-sm sm:text-base md:text-lg">(+91) 40 24520761</p>
+                <p className="text-sm sm:text-base md:text-lg">
+                  (+91) 40 24520761
+                </p>
               </div>
             </div>
           </motion.div>
@@ -128,7 +135,11 @@ export default function Footer() {
             text-xs sm:text-sm md:text-base lg:text-lg tracking-wide`}
         >
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:opacity-80 uppercase">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="hover:opacity-80 uppercase"
+            >
               {item.label}
             </Link>
           ))}
