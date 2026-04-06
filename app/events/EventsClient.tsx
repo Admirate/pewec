@@ -48,43 +48,88 @@ export default function EventsClient() {
         </div>
       </section>
 
-      {/* Photo Gallery */}
+      {/* Event Flyer */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pb-16 sm:pb-20 md:pb-24">
         <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8"
+          className="max-w-2xl mx-auto"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-md"
-          >
+          <div className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-md">
             <img
-              src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_pewec.jpeg"
-              alt="PEWEC Event"
+              src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg"
+              alt="PEWEC Event Flyer"
               className="w-full h-auto object-contain hover:scale-105 transition-transform duration-700"
             />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-md max-h-72 sm:max-h-80 md:max-h-96"
-          >
-            <img
-              src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_2_pewec.jpeg"
-              alt="PEWEC Event"
-              className="w-full h-auto object-contain hover:scale-105 transition-transform duration-700"
-            />
-          </motion.div>
+          </div>
+          <div className="flex justify-center mt-4 sm:mt-6">
+            <button
+              onClick={async () => {
+                try {
+                  const res = await fetch("https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg");
+                  const blob = await res.blob();
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "PEWEC_Event_Flyer.jpeg";
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  URL.revokeObjectURL(url);
+                } catch {
+                  window.open("https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg", "_blank");
+                }
+              }}
+              className={`${mulish.className} inline-flex items-center gap-2 px-6 py-3 bg-[#c44944] text-white text-sm sm:text-base font-semibold rounded-xl hover:bg-[#a83b37] transition-colors duration-300 cursor-pointer`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+              Download Flyer
+            </button>
+          </div>
         </motion.div>
+      </section>
+
+      {/* IT Skills Sessions */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pb-16 sm:pb-20 md:pb-24">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+          className="mb-6 sm:mb-8"
+        >
+          <h2 className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6`}>
+            IT Skills Sessions
+          </h2>
+          <p className={`${mulish.className} text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed`}>
+            IT Skills Sessions held at PEWEC.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {[
+            "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/it_skillsesh.jpeg",
+            "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/it_skillsesh_2.jpeg",
+            "https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/it_skill_sesh_3.jpeg",
+          ].map((src, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: i * 0.15 }}
+              viewport={{ once: true }}
+              className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-md"
+            >
+              <img
+                src={src}
+                alt={`IT Skills Session ${i + 1}`}
+                className="w-full h-64 sm:h-72 md:h-80 object-cover hover:scale-105 transition-transform duration-700"
+              />
+            </motion.div>
+          ))}
+        </div>
       </section>
 
       <Footer />

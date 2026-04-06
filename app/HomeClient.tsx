@@ -181,6 +181,31 @@ export default function HomeClient() {
           </div>
         </motion.div>
       </section>
+      {/* Floating Events button */}
+      <motion.div
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.6, ease: "easeOut" }}
+        className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50"
+      >
+        <Link href="/events">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 sm:gap-3 bg-[#c44944] text-white pl-4 pr-5 sm:pl-5 sm:pr-6 py-3 sm:py-3.5 rounded-full shadow-lg hover:bg-[#a83b37] transition-colors duration-300"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
+            </span>
+            <span className={`${mulish.className} font-semibold text-sm sm:text-base`}>
+              Events
+            </span>
+            <span className="text-base sm:text-lg">&rarr;</span>
+          </motion.div>
+        </Link>
+      </motion.div>
+
       <Footer />
     </main>
   );
