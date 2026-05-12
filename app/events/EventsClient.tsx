@@ -48,47 +48,91 @@ export default function EventsClient() {
         </div>
       </section>
 
-      {/* Event Flyer */}
+      {/* Event Flyers */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pb-16 sm:pb-20 md:pb-24">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="max-w-2xl mx-auto"
-        >
-          <div className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-md">
-            <img
-              src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg"
-              alt="PEWEC Event Flyer"
-              className="w-full h-auto object-contain hover:scale-105 transition-transform duration-700"
-            />
-          </div>
-          <div className="flex justify-center mt-4 sm:mt-6">
-            <button
-              onClick={async () => {
-                try {
-                  const res = await fetch("https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg");
-                  const blob = await res.blob();
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement("a");
-                  a.href = url;
-                  a.download = "PEWEC_Event_Flyer.jpeg";
-                  document.body.appendChild(a);
-                  a.click();
-                  document.body.removeChild(a);
-                  URL.revokeObjectURL(url);
-                } catch {
-                  window.open("https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg", "_blank");
-                }
-              }}
-              className={`${mulish.className} inline-flex items-center gap-2 px-6 py-3 bg-[#c44944] text-white text-sm sm:text-base font-semibold rounded-xl hover:bg-[#a83b37] transition-colors duration-300 cursor-pointer`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-              Download Flyer
-            </button>
-          </div>
-        </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-stretch">
+          {/* Flyer 1 */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="flex flex-col"
+          >
+            <div className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-md flex-1 flex items-center bg-white">
+              <img
+                src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg"
+                alt="PEWEC Event Flyer"
+                className="w-full h-full object-contain hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            <div className="flex justify-center mt-4 sm:mt-6">
+              <button
+                onClick={async () => {
+                  try {
+                    const res = await fetch("https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg");
+                    const blob = await res.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "PEWEC_Event_Flyer.jpeg";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                  } catch {
+                    window.open("https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/events_flyer.jpeg", "_blank");
+                  }
+                }}
+                className={`${mulish.className} inline-flex items-center gap-2 px-6 py-3 bg-[#c44944] text-white text-sm sm:text-base font-semibold rounded-xl hover:bg-[#a83b37] transition-colors duration-300 cursor-pointer`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                Download Flyer
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Flyer 2 */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex flex-col"
+          >
+            <div className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-md flex-1 flex items-center bg-white">
+              <img
+                src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/PEWEC_new_flyer.jpeg"
+                alt="PEWEC New Event Flyer"
+                className="w-full h-full object-contain hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            <div className="flex justify-center mt-4 sm:mt-6">
+              <button
+                onClick={async () => {
+                  try {
+                    const res = await fetch("https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/PEWEC_new_flyer.jpeg");
+                    const blob = await res.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "PEWEC_New_Flyer.jpeg";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                  } catch {
+                    window.open("https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/images/PEWEC_new_flyer.jpeg", "_blank");
+                  }
+                }}
+                className={`${mulish.className} inline-flex items-center gap-2 px-6 py-3 bg-[#c44944] text-white text-sm sm:text-base font-semibold rounded-xl hover:bg-[#a83b37] transition-colors duration-300 cursor-pointer`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                Download Flyer
+              </button>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* IT Skills Sessions */}

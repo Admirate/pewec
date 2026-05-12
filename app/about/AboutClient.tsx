@@ -88,7 +88,7 @@ export default function AboutClient() {
           <h2
             className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold`}
           >
-            Prince Muffakhan Jah
+            Prince Muffakham Jah
           </h2>
           <div className="w-full border-b-4 border-[#7EACB5] mt-6 sm:mt-8"></div>
         </motion.div>
@@ -102,7 +102,7 @@ export default function AboutClient() {
           <h2
             className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8`}
           >
-            Trustees
+            Honourable Trustees
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
