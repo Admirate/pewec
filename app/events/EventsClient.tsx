@@ -176,6 +176,42 @@ export default function EventsClient() {
         </div>
       </section>
 
+      {/* Summer Camp Shoot */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pb-16 sm:pb-20 md:pb-24">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+          className="mb-6 sm:mb-8"
+        >
+          <h2 className={`${mulish.className} text-[#c44944] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6`}>
+            Summer Camp Shoot
+          </h2>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+          className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md aspect-video max-w-4xl mx-auto"
+        >
+          <video
+            controls
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 w-full h-full object-cover rounded-2xl sm:rounded-3xl"
+          >
+            <source
+              src="https://aytfswwvnsuazudapbuo.supabase.co/storage/v1/object/public/website-assets/videos/summer%20camp%20shoot-compressed.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </motion.div>
+      </section>
+
       <Footer />
     </div>
   );
